@@ -5,11 +5,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"net/url"
 	"runtime/debug"
 
 	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/clientcredentials"
 )
 
 // Client to the Abax management APIs.
@@ -26,31 +24,36 @@ func NewClient(ctx context.Context, opts ...ClientOption) (*Client, error) {
 	for _, opt := range opts {
 		opt(&client.config)
 	}
-	// TODO: Support the client credentials flow
-	// by not requiring a refresh token from a 3-legged flow.
-	if client.config.clientID == "" || client.config.clientSecret == "" || client.config.refreshToken == "" {
-		return nil, fmt.Errorf("invalid client config: must provide clientID, clientSecret, and refreshToken")
+	if client.config.clientID == "" || client.config.clientSecret == "" {
+		return nil, fmt.Errorf("invalid client config: must provide clientID and clientSecret")
 	}
-	client.httpClient = NewOAuth2Config(
-		client.config.clientID,
-		client.config.clientSecret,
-		client.config.refreshToken,
-	).Client(ctx)
+	oauth2Config := NewOAuth2Config(client.config.clientID, client.config.clientSecret)
+
+	// If we have a refresh token, use it to get a fresh access token
+	if client.config.refreshToken != "" {
+		token := &oauth2.Token{RefreshToken: client.config.refreshToken}
+		client.httpClient = oauth2Config.Client(ctx, token)
+	} else if client.config.accessToken != "" {
+		// Use the provided access token directly
+		token := &oauth2.Token{AccessToken: client.config.accessToken}
+		client.httpClient = oauth2Config.Client(ctx, token)
+	} else {
+		return nil, fmt.Errorf("invalid client config: must provide either refreshToken or accessToken")
+	}
 	return &client, nil
 }
 
-// NewOAuth2Config creates a new OAuth2 config for the Abax API.
-func NewOAuth2Config(clientID, clientSecret, refreshToken string) *clientcredentials.Config {
-	return &clientcredentials.Config{
+// NewOAuth2Config creates a new OAuth2 config for the Abax API using authorization code flow.
+func NewOAuth2Config(clientID, clientSecret string) *oauth2.Config {
+	return &oauth2.Config{
 		ClientID:     clientID,
 		ClientSecret: clientSecret,
-		TokenURL:     "https://identity.abax.cloud/connect/token",
-		Scopes:       nil, // No scopes needed for the refresh flow.
-		EndpointParams: url.Values{
-			"grant_type":    {"refresh_token"},
-			"refresh_token": {refreshToken},
+		Endpoint: oauth2.Endpoint{
+			AuthURL:  "https://identity.abax.cloud/connect/authorize",
+			TokenURL: "https://identity.abax.cloud/connect/token",
 		},
-		AuthStyle: oauth2.AuthStyleInParams,
+		RedirectURL: "http://localhost:4000/abax/callback", // Default callback URL
+		Scopes:      []string{"openid", "abax_profile", "open_api", "open_api.vehicles", "offline_access"},
 	}
 }
 
