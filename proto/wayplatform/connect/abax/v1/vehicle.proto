@@ -1,0 +1,9 @@
+edition = "2023";
+
+package wayplatform.connect.abax.v1;
+
+// A vehicle.
+message Vehicle {
+  // TODO: Add field documentation.
+  string id = 1;
+}
