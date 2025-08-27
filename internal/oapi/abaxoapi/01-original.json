@@ -1,0 +1,4049 @@
+{
+  "openapi": "3.0.2",
+  "x-explorer-enabled": false,
+  "x-samples-languages": [
+    "curl",
+    "csharp",
+    "node",
+    "python"
+  ],
+  "info": {
+    "title": "Abax Open Platform API",
+    "description": "The Abax Open Platform API allows you to programmatically access data of ABAX users",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api-test.abax.cloud",
+      "description": "Sandbox"
+    }
+  ],
+  "tags": [
+    {
+      "name": "API Capabilities",
+      "description": "Operations to get API Capabilities"
+    },
+    {
+      "name": "Equipment",
+      "description": "Operations to get Equipment"
+    },
+    {
+      "name": "EquipmentV2",
+      "description": "Operations to get Equipment, second version"
+    },
+    {
+      "name": "UsageLogV2",
+      "description": "Operations to get UsageLog, second version"
+    },
+    {
+      "name": "Vehicles",
+      "description": "Operations to get Vehicles"
+    },
+    {
+      "name": "Trips",
+      "description": "Operations to get Trips"
+    },
+    {
+      "name": "Trip Purposes",
+      "description": "Operations to modify available Trip Purposes"
+    },
+    {
+      "name": "Organization",
+      "description": "Operations to get Organization"
+    }
+  ],
+  "paths": {
+    "/v1/api-capabilites": {
+      "get": {
+        "tags": [
+          "API Capabilities"
+        ],
+        "summary": "Gets API Capabilities",
+        "description": "Gets API Capabilities. Required scopes: abax_profile, open_api",
+        "operationId": "getApiCapabilities",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ApiCapability"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "items": [
+                        {
+                          "capability": "query-equipment"
+                        },
+                        {
+                          "capability": "query-equipment-locations"
+                        },
+                        {
+                          "capability": "query-people"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          }
+        }
+      }
+    },
+    "/v1/equipment": {
+      "get": {
+        "tags": [
+          "Equipment"
+        ],
+        "description": "Gets paged list of equipment. Required scopes: abax_profile, open_api, open_api.equipment.",
+        "summary": "Gets paged list of equipment",
+        "operationId": "getEquipmentList",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.equipment"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Page size",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1500,
+              "minimum": 1,
+              "maximum": 1500
+            }
+          },
+          {
+            "name": "unit_types",
+            "in": "query",
+            "description": "By default endpoint returns information about all unit types excluding Mini. To get data about Minis, you have to explicitly provide \"Mini\" as a parameter (only Mini information will be returned)",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/UnitTypeParameter"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "page_size": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Equipment"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "page": 1,
+                      "page_size": 1500,
+                      "items": [
+                        {
+                          "id": "90c5b884d50b46afa6eb3aa14792f782",
+                          "asset_id": "947a0543bb4446dc98e17069f659be7c",
+                          "alias": "Concrete Pump Yellow",
+                          "serial_number": "UHR000123",
+                          "equipment_identifier": "1GTEK19RXVE536195",
+                          "model": {
+                            "name": "Reed Concrete Pump C50-HP"
+                          },
+                          "operating_hours": {
+                            "hours": 100,
+                            "unit_driven": true
+                          },
+                          "unit": {
+                            "id": "6eeae0c2096a4173bf7a484a025aa91f",
+                            "serial_number": "PCX000123",
+                            "type": "Abax5",
+                            "health": "Healthy",
+                            "status": "Active"
+                          },
+                          "location": {
+                            "latitude": 67.879802,
+                            "longitude": 12.977594,
+                            "in_movement": false,
+                            "timestamp": "2019-09-27T08:54:47.432+00:00",
+                            "signal_source": "Gps"
+                          },
+                          "organization": {
+                            "id": "cc9c6ad1ed36418aaa4dd232bbdad80a",
+                            "name": "ABAX"
+                          },
+                          "initial_operating_hours": {
+                            "hours": 5,
+                            "unit_driven": true
+                          },
+                          "notes": "To be used only in Oslo"
+                        },
+                        {
+                          "id": "2b9132e94ca64a5bbe879bc5e25c11ad",
+                          "asset_id": "5d3211659d0e4006af58fdb6b0126d2a",
+                          "alias": "Small concrete pump trailor",
+                          "serial_number": "UHX020127",
+                          "equipment_identifier": "1HD1FAL11NY500561",
+                          "model": {
+                            "name": "Reed Concrete Pump trailor A30HP"
+                          },
+                          "operating_hours": {
+                            "hours": 100,
+                            "unit_driven": true
+                          },
+                          "unit": {
+                            "id": "11ef83e83e4d4b82a7b38cd6a8bb1ebe",
+                            "serial_number": "PCX220124",
+                            "type": "Abax5",
+                            "health": "Healthy",
+                            "status": "Active"
+                          },
+                          "location": {
+                            "latitude": 67.879802,
+                            "longitude": 12.977594,
+                            "in_movement": true,
+                            "speed": 20,
+                            "course": 172,
+                            "timestamp": "2019-09-27T08:54:47.433+00:00",
+                            "signal_source": "Gps"
+                          },
+                          "organization": {
+                            "id": "b493e3d514624eecbac34c3944589d97",
+                            "name": "ABAX"
+                          },
+                          "initial_operating_hours": {
+                            "hours": 5,
+                            "unit_driven": true
+                          },
+                          "notes": "To be used only in Larvik"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          }
+        }
+      }
+    },
+    "/v1/equipment/{id}": {
+      "get": {
+        "tags": [
+          "Equipment"
+        ],
+        "summary": "Gets equipment by ID",
+        "description": "Gets equipment by ID. Required scopes: abax_profile, open_api, open_api.equipment",
+        "operationId": "getEquipmentById",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.equipment"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of equipment to return",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "d290f1ee6c544b0190e6d701748f0851"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Equipment"
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "id": "90c5b884d50b46afa6eb3aa14792f782",
+                      "asset_id": "947a0543bb4446dc98e17069f659be7c",
+                      "alias": "Concrete Pump Yellow",
+                      "serial_number": "UHR000123",
+                      "equipment_identifier": "1GTEK19RXVE536195",
+                      "model": {
+                        "name": "Reed Concrete Pump C50-HP"
+                      },
+                      "operating_hours": {
+                        "hours": 100,
+                        "unit_driven": true
+                      },
+                      "unit": {
+                        "id": "3ba46063c2064276becc484d3dc432fc",
+                        "serial_number": "PCX000123",
+                        "type": "Abax5",
+                        "health": "Healthy",
+                        "status": "Active"
+                      },
+                      "location": {
+                        "latitude": 67.879802,
+                        "longitude": 12.977594,
+                        "in_movement": false,
+                        "timestamp": "2019-09-27T08:59:41.821+00:00",
+                        "signal_source": "Gps"
+                      },
+                      "organization": {
+                        "id": "9953da6a1ce7404591680b20fc67a1b1",
+                        "name": "ABAX"
+                      },
+                      "initial_operating_hours": {
+                        "hours": 5,
+                        "unit_driven": true
+                      },
+                      "notes": "To be used only in Oslo"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - missing resource identified by provided parameter."
+          }
+        }
+      }
+    },
+    "/v1/equipment/locations": {
+      "post": {
+        "tags": [
+          "Equipment"
+        ],
+        "summary": "Gets current locations of given Equipment",
+        "description": "Gets current locations of given Equipment. Required scopes: abax_profile, open_api, open_api.equipment",
+        "operationId": "getEquipmentLocations",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.equipment"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid",
+                      "minItems": 1,
+                      "maxItems": 1500
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EquipmentLocation"
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "items": [
+                        {
+                          "id": "90c5b884d50b46afa6eb3aa14792f782",
+                          "location": {
+                            "latitude": -41.919625,
+                            "longitude": 172.581129,
+                            "in_movement": true,
+                            "speed": 30,
+                            "course": 98,
+                            "timestamp": "2019-09-27T08:19:51.484+00:00",
+                            "signal_source": "Gps"
+                          }
+                        },
+                        {
+                          "id": "2b9132e94ca64a5bbe879bc5e25c11ad",
+                          "location": {
+                            "latitude": -30.780416,
+                            "longitude": -40.765451,
+                            "in_movement": false,
+                            "speed": 0,
+                            "timestamp": "2019-09-27T08:49:12.479+00:00",
+                            "signal_source": "Gps"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - missing resource identified by provided parameter."
+          }
+        }
+      }
+    },
+    "/v1/equipment/sensor-data": {
+      "post": {
+        "tags": [
+          "Equipment"
+        ],
+        "summary": "Gets equipment sensor data",
+        "description": "Gets equipments sensor data by equipments IDs. Required scopes: abax_profile, open_api, open_api.equipment",
+        "operationId": "getEquipmentSensorData",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.equipment"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid",
+                      "minItems": 1,
+                      "maxItems": 1500
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SensorData"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "items": [
+                        {
+                          "id": "90c5b884d50b46afa6eb3aa14792f782",
+                          "sensor_data": [
+                            {
+                              "sensor_id": "CumulativeOperatingHours",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "numeric_value": 1398.84,
+                              "unit": "hour"
+                            },
+                            {
+                              "sensor_id": "DEFRemaining_Percent",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "numeric_value": 72,
+                              "unit": "percent"
+                            },
+                            {
+                              "sensor_id": "Distance_Odometer",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "numeric_value": 285.5,
+                              "unit": "kilometer"
+                            },
+                            {
+                              "sensor_id": "EngineStatus_Running",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "bool_value": true,
+                              "unit": "none"
+                            },
+                            {
+                              "sensor_id": "FuelUsed",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "int_value": "9007",
+                              "unit": "liter"
+                            },
+                            {
+                              "sensor_id": "FuelRemaining_Percent",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "numeric_value": 86,
+                              "unit": "percent"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "90c5b884d50b46afa6eb32114792f782",
+                          "sensor_data": [
+                            {
+                              "sensor_id": "AverageLoadFactorLast24",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "numeric_value": 22,
+                              "unit": "percent"
+                            },
+                            {
+                              "sensor_id": "CumulativeIdleHours",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "numeric_value": 156.02,
+                              "unit": "hour"
+                            },
+                            {
+                              "sensor_id": "CumulativeOperatingHours",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "numeric_value": 1398.84,
+                              "unit": "hour"
+                            },
+                            {
+                              "sensor_id": "EngineStatus_Running",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "bool_value": true,
+                              "unit": "none"
+                            },
+                            {
+                              "sensor_id": "FuelUsed",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "int_value": "9007",
+                              "unit": "liter"
+                            },
+                            {
+                              "sensor_id": "FuelRemaining_Percent",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "numeric_value": 86,
+                              "unit": "percent"
+                            },
+                            {
+                              "sensor_id": "MaximumSpeedLast24",
+                              "timestamp": "2019-09-27T08:49:12.479+00:00",
+                              "numeric_value": 29.17,
+                              "unit": "meter-per-minute"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - missing resource identified by provided parameter."
+          }
+        }
+      }
+    },
+    "/v1/vehicles": {
+      "get": {
+        "tags": [
+          "Vehicles"
+        ],
+        "summary": "Gets paged list of Vehicles",
+        "description": "Gets paged list of Vehicles. Required scopes: abax_profile, open_api, open_api.vehicles",
+        "operationId": "getVehiclesList",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.vehicles"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Page size",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1500,
+              "minimum": 1,
+              "maximum": 1500
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "page_size": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Vehicle"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "page": 1,
+                      "page_size": 1500,
+                      "items": [
+                        {
+                          "id": "d7c52fbc262141bfb9e6791b8d5a3cb3",
+                          "asset_id": "b28717939b3246fc823a544aece018d4",
+                          "vin": "1HD1PDC392Y952267",
+                          "alias": "Norwegian Beauty",
+                          "manufacturer": {
+                            "name": "Skoda"
+                          },
+                          "model": {
+                            "name": "Fabia"
+                          },
+                          "license_plate": {
+                            "number": "XK246HY",
+                            "registration_date": "2015-11-01T00:00:00.000+00:00"
+                          },
+                          "commercial_class": "Commercial",
+                          "registered_at": "2018-01-01T00:00:00.000+00:00",
+                          "unit": {
+                            "id": "cda063aceae6446eabe48d47f72db30c",
+                            "serial_number": "XCC157888",
+                            "type": "Abax5",
+                            "health": "Healthy",
+                            "status": "Active"
+                          },
+                          "location": {
+                            "latitude": 67.879802,
+                            "longitude": 12.977594,
+                            "speed": 10,
+                            "in_movement": true,
+                            "course": 10,
+                            "timestamp": "2019-09-27T09:03:37.315+00:00",
+                            "signal_source": "Gps"
+                          },
+                          "driver": {
+                            "id": "cfc828c2935340d19e48143abf65f017",
+                            "external_id": "75",
+                            "name": "John Doe",
+                            "phone_number": "22 22 22 99",
+                            "email": "kundesenter@abax.no"
+                          },
+                          "organization": {
+                            "id": "f42ff5b090b84f6daaffb8e3361b5c01",
+                            "name": "ABAX"
+                          },
+                          "odometer": {
+                            "value": 141093,
+                            "timestamp": "2019-09-27T09:03:37.315+00:00"
+                          },
+                          "notes": "Janitor's Car",
+                          "fuel_type": "Petrol",
+                          "fuel_consumption": 4.3,
+                          "engine_size": 1000,
+                          "color": "Blue",
+                          "co2_emissions": 110
+                        },
+                        {
+                          "id": "ad388459bd594cdf84ca2c13c0d4f8cd",
+                          "asset_id": "b98f6a3d2da24329aa768733ffe4e479",
+                          "vin": "ZFFYT53A910507719",
+                          "alias": "Norwegian Rocket",
+                          "manufacturer": {
+                            "name": "Ferrari"
+                          },
+                          "model": {
+                            "name": "California"
+                          },
+                          "license_plate": {
+                            "number": "EE345HJ",
+                            "registration_date": "2015-11-01T00:00:00.000+00:00"
+                          },
+                          "commercial_class": "Commercial",
+                          "registered_at": "2018-01-01T00:00:00.000+00:00",
+                          "unit": {
+                            "id": "f917a1a3852c4fcea70a6dedddb88733",
+                            "serial_number": "XCC157887",
+                            "type": "Abax5",
+                            "health": "Healthy",
+                            "status": "Active"
+                          },
+                          "location": {
+                            "latitude": 71.168173,
+                            "longitude": 25.78105,
+                            "in_movement": false,
+                            "timestamp": "2019-09-27T09:03:37.315+00:00",
+                            "signal_source": "Gps"
+                          },
+                          "driver": {
+                            "id": "74d6c8ba57af46ad83d25ac5b8c84051",
+                            "external_id": "9483",
+                            "name": "Ronald Doe",
+                            "phone_number": "22 22 22 99",
+                            "email": "kundesenter@abax.no"
+                          },
+                          "organization": {
+                            "id": "54e4593ffaf24c529aded88928786cc2",
+                            "name": "ABAX 2"
+                          },
+                          "odometer": {
+                            "value": 41693,
+                            "timestamp": "2019-09-27T09:03:37.315+00:00"
+                          },
+                          "notes": "CEO's Car",
+                          "fuel_type": "Petrol",
+                          "fuel_consumption": 13.8,
+                          "engine_size": 3900,
+                          "color": "Red",
+                          "co2_emissions": 305
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          }
+        }
+      }
+    },
+    "/v1/vehicles/{id}": {
+      "get": {
+        "tags": [
+          "Vehicles"
+        ],
+        "summary": "Gets Vehicle by ID",
+        "description": "Gets Vehicle by ID. Required scopes: abax_profile, open_api, open_api.vehicles",
+        "operationId": "getVehicleById",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.vehicles"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of Vehicle to return",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "d7c52fbc262141bfb9e6791b8d5a3cb3"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicle"
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "id": "d7c52fbc262141bfb9e6791b8d5a3cb3",
+                      "asset_id": "b28717939b3246fc823a544aece018d4",
+                      "vin": "1HD1PDC392Y952267",
+                      "alias": "Norwegian Beauty",
+                      "manufacturer": {
+                        "name": "Skoda"
+                      },
+                      "model": {
+                        "name": "Fabia"
+                      },
+                      "license_plate": {
+                        "number": "XK246HY",
+                        "registration_date": "2015-11-01T00:00:00.000+00:00"
+                      },
+                      "commercial_class": "Commercial",
+                      "registered_at": "2018-01-01T00:00:00.000+00:00",
+                      "unit": {
+                        "id": "326ca22b1d22443097412d48c04cb970",
+                        "serial_number": "XCC157888",
+                        "type": "Abax5",
+                        "health": "Healthy",
+                        "status": "Active"
+                      },
+                      "location": {
+                        "latitude": 67.879802,
+                        "longitude": 12.977594,
+                        "speed": 10,
+                        "in_movement": true,
+                        "course": 10,
+                        "timestamp": "2019-09-27T09:04:33.256+00:00",
+                        "signal_source": "Gps"
+                      },
+                      "driver": {
+                        "id": "ec686ad0bb2147dd9cc6a5590985727e",
+                        "external_id": "15",
+                        "name": "John Doe",
+                        "phone_number": "22 22 22 99",
+                        "email": "kundesenter@abax.no"
+                      },
+                      "organization": {
+                        "id": "83d534f582de47b0bbf8f41725fe3fd4",
+                        "name": "ABAX"
+                      },
+                      "odometer": {
+                        "value": 141093,
+                        "timestamp": "2019-09-27T09:04:33.256+00:00"
+                      },
+                      "notes": "Janitor's Car",
+                      "fuel_type": "Petrol",
+                      "fuel_consumption": 6.5,
+                      "engine_size": 1000,
+                      "color": "Blue",
+                      "co2_emissions": 110
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - missing resource identified by provided parameter."
+          }
+        }
+      }
+    },
+    "/v1/vehicles/locations": {
+      "post": {
+        "tags": [
+          "Vehicles"
+        ],
+        "summary": "Gets current locations of given Vehicles",
+        "description": "Gets current locations of given Vehicles. Required scopes: abax_profile, open_api, open_api.vehicles",
+        "operationId": "getVehiclesLocations",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.vehicles"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid",
+                      "minItems": 1,
+                      "maxItems": 1500
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VehicleLocation"
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "items": [
+                        {
+                          "id": "d7c52fbc262141bfb9e6791b8d5a3cb3",
+                          "location": {
+                            "latitude": 67.80126,
+                            "longitude": 171.131997,
+                            "speed": 76,
+                            "in_movement": true,
+                            "course": 54,
+                            "timestamp": "2019-09-27T08:56:52.430+00:00",
+                            "signal_source": "Gps"
+                          }
+                        },
+                        {
+                          "id": "ad388459bd594cdf84ca2c13c0d4f8cd",
+                          "location": {
+                            "latitude": 53.222768,
+                            "longitude": -2.837742,
+                            "speed": 39,
+                            "in_movement": true,
+                            "course": 101,
+                            "timestamp": "2019-09-26T19:06:08.396+00:00",
+                            "signal_source": "Gps"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - missing resource identified by provided parameter."
+          }
+        }
+      }
+    },
+    "/v1/vehicles/{id}/location-history": {
+      "get": {
+        "tags": [
+          "Vehicles"
+        ],
+        "summary": "Gets recent locations by Vehicle ID (1 minute of most recent history)",
+        "description": "Gets recent locations by Vehicle ID (1 minute of most recent history). Required scopes: abax_profile, open_api, open_api.vehicles",
+        "operationId": "getVehicleRecentLocations",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.vehicles"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of Vehicle",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "bc8f08ab36dd57e98fbef9c194bfb8c2"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleRecentLocations"
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "id": "d7c52fbc262141bfb9e6791b8d5a3cb3",
+                      "locations": [
+                        {
+                          "latitude": -25.7503,
+                          "longitude": -142.047,
+                          "speed": 0,
+                          "in_movement": false,
+                          "timestamp": "2019-09-27T04:25:25.800+00:00",
+                          "signal_source": "Gps"
+                        },
+                        {
+                          "latitude": 33.7754,
+                          "longitude": -41.829,
+                          "speed": 0,
+                          "in_movement": false,
+                          "timestamp": "2019-09-26T22:34:19.902+00:00",
+                          "signal_source": "Gps"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - missing resource identified by provided parameter."
+          }
+        }
+      }
+    },
+    "/v1/vehicles/drive-states": {
+      "post": {
+        "tags": [
+          "Vehicles"
+        ],
+        "summary": "Gets current drive states of given Vehicles",
+        "description": "Gets current drive states of given Vehicles. Required scopes: abax_profile, open_api, open_api.vehicles",
+        "operationId": "getVehiclesDriveStates",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.vehicles"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid",
+                      "minItems": 1,
+                      "maxItems": 1500
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VehicleDriveState"
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "items": [
+                        {
+                          "id": "d7c52fbc262141bfb9e6791b8d5a3cb3",
+                          "drive_state": {
+                            "value": "Moving",
+                            "timestamp": "2019-09-27T08:56:52.430+00:00"
+                          }
+                        },
+                        {
+                          "id": "ad388459bd594cdf84ca2c13c0d4f8cd",
+                          "drive_state": {
+                            "value": "Idling",
+                            "timestamp": "2019-09-26T19:06:08.396+00:00"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - missing resource identified by provided parameter."
+          }
+        }
+      }
+    },
+    "/v1/trips": {
+      "get": {
+        "tags": [
+          "Trips"
+        ],
+        "summary": "Gets paged list of Trips",
+        "description": "Gets paged list of Trips. Required scopes: abax_profile, open_api, open_api.trips",
+        "operationId": "getTripsList",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.trips"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Page size",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1500,
+              "minimum": 1,
+              "maximum": 1500
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "description": "The period cannot be longer than 3 months - ISO 8601 format - UTC time",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2020-04-17T08:46:17+00:00"
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "description": "The period cannot be longer than 3 months - ISO 8601 format - UTC time",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2020-04-17T08:46:17+00:00"
+          },
+          {
+            "name": "vehicle_id",
+            "in": "query",
+            "description": "ID of Vehicle for which trips should be returned",
+            "required": false,
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "d7c52fbc262141bfb9e6791b8d5a3cb3"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "page_size": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Trip"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "page": 1,
+                      "page_size": 1500,
+                      "items": [
+                        {
+                          "id": "871c120e54cb4c58b4fb5ee457bb968a",
+                          "vehicle": {
+                            "id": "856d49f046944439b2c9fd6af9dcabdf",
+                            "alias": "My black car",
+                            "commercial_class": "Commercial"
+                          },
+                          "driver": {
+                            "id": "8055821cc16640bea17a42fe8f6bdb12",
+                            "external_id": "7578",
+                            "name": "John Doe",
+                            "phone_number": "22 22 22 99",
+                            "email": "kundesenter@abax.no"
+                          },
+                          "start": {
+                            "location": {
+                              "latitude": 59.051693,
+                              "longitude": 10.020003,
+                              "timestamp": "2019-01-10T10:00:00.000+00:00",
+                              "signal_source": "Gps"
+                            },
+                            "address": "N 3251, Larvik, Hammergata"
+                          },
+                          "finish": {
+                            "location": {
+                              "latitude": 59.95097,
+                              "longitude": 10.729076,
+                              "timestamp": "2019-01-10T11:33:12.000+00:00",
+                              "signal_source": "Gps"
+                            },
+                            "address": "N 0856, Oslo, Sognsveien"
+                          },
+                          "distance": 134,
+                          "purpose": "Trip to client",
+                          "commercial_class": "BusinessTrip",
+                          "notes": "just comment to the trip",
+                          "duration": 5592,
+                          "source": "Automatic"
+                        },
+                        {
+                          "id": "0e2d0a84463e411dbedab16560b60430",
+                          "vehicle": {
+                            "id": "629c963e55aa448fa2c275231ad1136a",
+                            "alias": "My black car",
+                            "commercial_class": "Commercial"
+                          },
+                          "driver": {
+                            "id": "67f883de62954c229d43da919de1de41",
+                            "external_id": "942",
+                            "name": "John Doe",
+                            "phone_number": "22 22 22 99",
+                            "email": "kundesenter@abax.no"
+                          },
+                          "start": {
+                            "location": {
+                              "latitude": 59.95097,
+                              "longitude": 10.729076,
+                              "timestamp": "2019-01-10T15:00:00.000+00:00",
+                              "signal_source": "Gps"
+                            },
+                            "address": "N 0856, Oslo, Sognsveien"
+                          },
+                          "finish": {
+                            "location": {
+                              "latitude": 59.051693,
+                              "longitude": 10.020003,
+                              "timestamp": "2019-01-10T17:53:15.000+00:00",
+                              "signal_source": "Gps"
+                            },
+                            "address": "N 3251, Larvik, Hammergata"
+                          },
+                          "distance": 134,
+                          "purpose": "Trip from client to HQ",
+                          "commercial_class": "BusinessTrip",
+                          "notes": "just comment to the trip",
+                          "duration": 10395,
+                          "source": "Automatic"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          }
+        }
+      }
+    },
+    "/v1/trips/{id}/route": {
+      "get": {
+        "tags": [
+          "Trips"
+        ],
+        "summary": "Gets a Route for a given Trip",
+        "description": "Gets a Route for a given Trip. Required scopes: abax_profile, open_api, open_api.trips",
+        "operationId": "getTripRoute",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.trips"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the Trip for which we want to get a Route",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "0728e41880544675801b1d5e2d1b3f66"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripRoute"
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "trip_id": "871c120e54cb4c58b4fb5ee457bb968a",
+                      "locations": [
+                        {
+                          "latitude": 59.051693,
+                          "longitude": 10.020003,
+                          "in_movement": false,
+                          "timestamp": "2019-01-10T10:00:00.000+00:00",
+                          "signal_source": "Gps"
+                        },
+                        {
+                          "latitude": 59.051686,
+                          "longitude": 10.02049,
+                          "in_movement": true,
+                          "speed": 15,
+                          "course": 135,
+                          "timestamp": "2019-01-10T10:00:30.000+00:00",
+                          "signal_source": "Gps"
+                        },
+                        {
+                          "latitude": 59.051212,
+                          "longitude": 10.021831,
+                          "in_movement": true,
+                          "speed": 20,
+                          "course": 225,
+                          "timestamp": "2019-01-10T10:01:00.000+00:00",
+                          "signal_source": "Gps"
+                        },
+                        {
+                          "latitude": 59.050704,
+                          "longitude": 10.021402,
+                          "in_movement": true,
+                          "speed": 15,
+                          "course": 225,
+                          "timestamp": "2019-01-10T10:01:30.000+00:00",
+                          "signal_source": "Gps"
+                        },
+                        {
+                          "latitude": 59.049888,
+                          "longitude": 10.019696,
+                          "in_movement": false,
+                          "timestamp": "2019-01-10T10:02:00.000+00:00",
+                          "signal_source": "Gps"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          }
+        }
+      }
+    },
+    "/v1/trips/expense": {
+      "get": {
+        "tags": [
+          "Trips"
+        ],
+        "summary": "Gets expense and extra data of given Trips",
+        "description": "Gets expense and extra of Trips. Required scopes: abax_profile, open_api, open_api.trips",
+        "operationId": "getTripExpenseAndExtra",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.trips"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "trip_ids",
+            "in": "query",
+            "description": "Ids of trips. Can have up to 150 ids",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid",
+                "example": "0728e41880544675801b1d5e2d1b3f66"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ExpenseAndExtra"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "items": [
+                        {
+                          "trip_id": "871c120e54cb4c58b4fb5ee457bb968a",
+                          "expense": {
+                            "parking": 35,
+                            "toll_charge": 10
+                          },
+                          "extra": {
+                            "distance_with_trailer_in_km": 10
+                          }
+                        },
+                        {
+                          "trip_id": "0e2d0a84463e411dbedab16560b60430",
+                          "expense": {
+                            "ferry": 110
+                          },
+                          "extra": {
+                            "distance_with_trailer_in_km": 10
+                          }
+                        },
+                        {
+                          "trip_id": "129769b3470354568ae6995e7b3c70f5",
+                          "expense": {},
+                          "extra": {}
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          }
+        }
+      }
+    },
+    "/v1/trips/odometerReadings": {
+      "get": {
+        "tags": [
+          "Trips"
+        ],
+        "summary": "Gets start and finish odometer values of given Trips",
+        "description": "Gets start and finish odometer values of given Trips.<br/> In some cases odometer reading is unavailable due to privacy regulations.<br/> Required scopes: abax_profile,  open_api, open_api.trips",
+        "operationId": "getTripOdometerReadings",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.trips"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "trip_ids",
+            "in": "query",
+            "description": "Ids of trips. Can have up to 150 ids",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid",
+                "example": "0728e41880544675801b1d5e2d1b3f66"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/TripOdometerReading"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "items": [
+                        {
+                          "trip_id": "871c120e54cb4c58b4fb5ee457bb968a",
+                          "trip_start": {
+                            "value": 100000000,
+                            "timestamp": "2019-01-10T10:00:00.000+00:00"
+                          },
+                          "trip_finish": {
+                            "value": 100134000,
+                            "timestamp": "2019-01-10T11:33:12.000+00:00"
+                          }
+                        },
+                        {
+                          "trip_id": "0e2d0a84463e411dbedab16560b60430",
+                          "trip_start": {
+                            "value": 83000,
+                            "timestamp": "2019-01-10T10:00:00.000+00:00"
+                          },
+                          "trip_finish": {
+                            "value": 89000,
+                            "timestamp": "2019-01-10T11:33:12.000+00:00"
+                          }
+                        },
+                        {
+                          "trip_id": "129769b3470354568ae6995e7b3c70f5"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          }
+        }
+      }
+    },
+    "/v1/trips/purposes": {
+      "post": {
+        "tags": [
+          "Trip Purposes"
+        ],
+        "summary": "Adds trip purpose to the list of available trip purposes",
+        "description": "Adds trip purpose to the list of available trip purposes. Maximum size of list is 5000 entries. Total length of entries on the list can not exceed 100 000 characters. Required scopes: abax_profile, open_api, open_api.trips",
+        "operationId": "createTripPurpose",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.trips"
+            ]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "purpose": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "purpose": "Sample Purpose"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad request - missing or invalid request body provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "422": {
+            "description": "Unprocessable entity - request body is correct but the resulting list would break validation rules"
+          }
+        }
+      }
+    },
+    "/v1/trips/purposes/delete": {
+      "post": {
+        "tags": [
+          "Trip Purposes"
+        ],
+        "summary": "Remove trip purpose from the list of available trip purposes",
+        "description": "Remove trip purpose from the list of available trip purposes. Required scopes: abax_profile, open_api, open_api.trips",
+        "operationId": "removeTripPurpose",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.trips"
+            ]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "purpose": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "purpose": "Sample Purpose"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad request - missing or invalid request body provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          }
+        }
+      }
+    },
+    "/v1/people": {
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "Gets paged list of People",
+        "description": "Gets paged list of People. Required scopes: abax_profile, open_api, open_api.organization",
+        "operationId": "getPersonList",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.organization"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Page size",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1500,
+              "minimum": 1,
+              "maximum": 1500
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "page_size": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Person"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "page": 1,
+                      "page_size": 1500,
+                      "items": [
+                        {
+                          "id": "9176032abb02439caec10e7fee2cffc6",
+                          "name": "John Doe",
+                          "external_id": "16292",
+                          "contact": {
+                            "email": "kundesenter1@abax.no",
+                            "phone_number": "22 22 33 99"
+                          }
+                        },
+                        {
+                          "id": "3f136144985e4569ac3598fc1dd568af",
+                          "name": "Ronald Doe",
+                          "contact": {
+                            "email": "kundesenter@abax.no",
+                            "phone_number": "22 22 11 99"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          }
+        }
+      }
+    },
+    "/v1/people/{id}": {
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "Gets Person by ID",
+        "description": "Gets Person by ID. Required scopes: abax_profile, open_api, open_api.organization",
+        "operationId": "getPersonById",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.organization"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of Person to return",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "9176032abb02439caec10e7fee2cffc6"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "id": "9176032abb02439caec10e7fee2cffc6",
+                      "name": "John Doe",
+                      "external_id": "16292",
+                      "contact": {
+                        "email": "kundesenter1@abax.no",
+                        "phone_number": "22 22 33 99"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          }
+        }
+      }
+    },
+    "/v1/company/info": {
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "Get company information",
+        "description": "Returns detailed information about the authenticated user's organization.<br> Required scopes: `abax_profile`, `open_api`, `open_api.organization`.\n",
+        "operationId": "getCompanyInfo",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.organization"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyInfo"
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "companyName": "Company LTD",
+                      "emailContact": "support@company.no",
+                      "phoneNumber": "+44 123 456 789",
+                      "taxRegistrationNumber": "123456789",
+                      "address": {
+                        "street": "123 Baker Street",
+                        "city": "London",
+                        "postalCode": "W1U 3BW",
+                        "country": "UK"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/v2/equipment": {
+      "get": {
+        "tags": [
+          "EquipmentV2"
+        ],
+        "description": "Gets paged list of equipment. Required scopes: abax_profile, open_api, open_api.equipment.",
+        "summary": "Gets paged list of equipment",
+        "operationId": "v2-getEquipmentList",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.equipment"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Page size",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1500,
+              "minimum": 1,
+              "maximum": 1500
+            }
+          },
+          {
+            "name": "unit_types",
+            "in": "query",
+            "description": "By default endpoint returns information about all unit types excluding Mini. To get data about Minis, you have to explicitly provide \"Mini\" as a parameter (only Mini information will be returned)",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/UnitTypeParameter"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "page_size": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/EquipmentV2"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "page": 1,
+                      "page_size": 1500,
+                      "items": [
+                        {
+                          "id": "90c5b884d50b46afa6eb3aa14792f782",
+                          "asset_id": "947a0543bb4446dc98e17069f659be7c",
+                          "alias": "Concrete Pump Yellow",
+                          "serial_number": "UHR000123",
+                          "equipment_identifier": "1GTEK19RXVE536195",
+                          "model": {
+                            "name": "Reed Concrete Pump C50-HP"
+                          },
+                          "unit": {
+                            "id": "6eeae0c2096a4173bf7a484a025aa91f",
+                            "serial_number": "PCX000123",
+                            "type": "Abax5",
+                            "health": "Healthy",
+                            "status": "Active"
+                          },
+                          "location": {
+                            "latitude": 67.879802,
+                            "longitude": 12.977594,
+                            "in_movement": false,
+                            "timestamp": "2019-09-27T08:54:47.432+00:00",
+                            "signal_source": "Gps"
+                          },
+                          "organization": {
+                            "id": "cc9c6ad1ed36418aaa4dd232bbdad80a",
+                            "name": "ABAX"
+                          },
+                          "notes": "To be used only in Oslo",
+                          "inputs": [
+                            {
+                              "type": "Yellow",
+                              "name": "Excavator",
+                              "accumulated_usage_time_seconds": 114129,
+                              "accumulated_usage_time_last_service_hours": 0,
+                              "service_interval_hours": 333,
+                              "initial_usage_time_hours": 5,
+                              "service_alert_limit_hours": 200,
+                              "usage_time_since_last_service_hours": 133
+                            }
+                          ]
+                        },
+                        {
+                          "id": "2b9132e94ca64a5bbe879bc5e25c11ad",
+                          "asset_id": "5d3211659d0e4006af58fdb6b0126d2a",
+                          "alias": "Small concrete pump trailor",
+                          "serial_number": "UHX020127",
+                          "equipment_identifier": "1HD1FAL11NY500561",
+                          "model": {
+                            "name": "Reed Concrete Pump trailor A30HP"
+                          },
+                          "unit": {
+                            "id": "11ef83e83e4d4b82a7b38cd6a8bb1ebe",
+                            "serial_number": "PCX220124",
+                            "type": "Abax5",
+                            "health": "Healthy",
+                            "status": "Active"
+                          },
+                          "location": {
+                            "latitude": 67.879802,
+                            "longitude": 12.977594,
+                            "in_movement": true,
+                            "speed": 20,
+                            "course": 172,
+                            "timestamp": "2019-09-27T08:54:47.433+00:00",
+                            "signal_source": "Gps"
+                          },
+                          "organization": {
+                            "id": "b493e3d514624eecbac34c3944589d97",
+                            "name": "ABAX"
+                          },
+                          "notes": "To be used only in Larvik",
+                          "inputs": [
+                            {
+                              "type": "Yellow",
+                              "name": "Excavator",
+                              "accumulated_usage_time_seconds": 118712,
+                              "accumulated_usage_time_last_service_hours": 0,
+                              "service_interval_hours": 1000,
+                              "initial_usage_time_hours": 25,
+                              "service_alert_limit_hours": 100,
+                              "usage_time_since_last_service_hours": 57
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          }
+        }
+      }
+    },
+    "/v2/equipment/{id}": {
+      "get": {
+        "tags": [
+          "EquipmentV2"
+        ],
+        "summary": "Gets equipment by ID",
+        "description": "Gets equipment by ID. Required scopes: abax_profile, open_api, open_api.equipment",
+        "operationId": "v2-getEquipmentById",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.equipment"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of equipment to return",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "d290f1ee6c544b0190e6d701748f0851"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EquipmentV2"
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "id": "90c5b884d50b46afa6eb3aa14792f782",
+                      "asset_id": "947a0543bb4446dc98e17069f659be7c",
+                      "alias": "Concrete Pump Yellow",
+                      "serial_number": "UHR000123",
+                      "equipment_identifier": "1GTEK19RXVE536195",
+                      "model": {
+                        "name": "Reed Concrete Pump C50-HP"
+                      },
+                      "unit": {
+                        "id": "3ba46063c2064276becc484d3dc432fc",
+                        "serial_number": "PCX000123",
+                        "type": "Abax5",
+                        "health": "Healthy",
+                        "status": "Active"
+                      },
+                      "location": {
+                        "latitude": 67.879802,
+                        "longitude": 12.977594,
+                        "in_movement": false,
+                        "timestamp": "2019-09-27T08:59:41.821+00:00",
+                        "signal_source": "Gps"
+                      },
+                      "organization": {
+                        "id": "9953da6a1ce7404591680b20fc67a1b1",
+                        "name": "ABAX"
+                      },
+                      "notes": "To be used only in Oslo",
+                      "inputs": [
+                        {
+                          "type": "Yellow",
+                          "name": "Excavator",
+                          "accumulated_usage_time_seconds": 118712,
+                          "accumulated_usage_time_last_service_hours": 0,
+                          "service_interval_hours": 1000,
+                          "initial_usage_time_hours": 25,
+                          "service_alert_limit_hours": 100,
+                          "usage_time_since_last_service_hours": 57
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - missing resource identified by provided parameter."
+          }
+        }
+      }
+    },
+    "/v3/equipment/usage-log": {
+      "get": {
+        "tags": [
+          "UsageLogV2"
+        ],
+        "summary": "Gets usage logs",
+        "description": "Get paged list of usage logs. Required scopes: abax_profile, open_api, open_api.equipment",
+        "operationId": "v3-getUsageLog",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.equipment"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Page size",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1500,
+              "minimum": 1,
+              "maximum": 1500
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "description": "The period cannot be longer than 3 months - ISO 8601 format - UTC time",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2020-04-17T08:46:17+00:00"
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "description": "The period cannot be longer than 3 months - ISO 8601 format - UTC time",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2020-04-17T08:46:17+00:00"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "page_size": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/UsageLog"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "page": 1,
+                      "page_size": 1500,
+                      "items": [
+                        {
+                          "equipment_id": "90c5b884d50b46afa6eb3aa14792f782",
+                          "usage_log_id": "c086c8f5-9f1f-4017-9672-38d63c0e021a",
+                          "address": "0655 Oslo",
+                          "start_time": "2022-05-12T06:24:04.000+00:00",
+                          "end_time": "2022-05-18T04:52:29.000+00:00",
+                          "input_type": "Yellow",
+                          "usage_in_seconds": 12600
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - missing resource identified by provided parameter."
+          },
+          "416": {
+            "description": "Requested Range Not Satisfiable - Total amount of requested usage logs is above 45000, please request smaller time range."
+          }
+        }
+      }
+    },
+    "/v3/equipment/{id}/usage-log": {
+      "get": {
+        "tags": [
+          "UsageLogV2"
+        ],
+        "summary": "Gets equipment usage logs",
+        "description": "Get paged list of usage logs by equipment ID. Required scopes: abax_profile, open_api, open_api.equipment.",
+        "operationId": "v3-getEquipmentUsageLogs",
+        "security": [
+          {
+            "openId": [
+              "abax_profile",
+              "open_api",
+              "open_api.equipment"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of equipment to return",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "d290f1ee6c544b0190e6d701748f0851"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Page size",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1500,
+              "minimum": 1,
+              "maximum": 1500
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "description": "The period cannot be longer than 3 months - ISO 8601 format - UTC time",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2020-04-17T08:46:17+00:00"
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "description": "The period cannot be longer than 3 months - ISO 8601 format - UTC time",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2020-04-17T08:46:17+00:00"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "page_size": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/UsageLog"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "page": 1,
+                      "page_size": 1500,
+                      "items": [
+                        {
+                          "equipment_id": "90c5b884d50b46afa6eb3aa14792f782",
+                          "usage_log_id": "c086c8f5-9f1f-4017-9672-38d63c0e021a",
+                          "address": "0655 Oslo",
+                          "start_time": "2022-05-12T06:24:04.000+00:00",
+                          "end_time": "2022-05-18T04:52:29.000+00:00",
+                          "input_type": "Yellow",
+                          "usage_in_seconds": 12600
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - missing resource identified by provided parameter."
+          },
+          "416": {
+            "description": "Requested Range Not Satisfiable - Total amount of requested usage logs is above 45000, please request smaller time range."
+          }
+        }
+      }
+    },
+    "/v1/driving-behaviour/organization": {
+      "get": {
+        "tags": [
+          "DrivingBehaviour"
+        ],
+        "description": "Gets organization driving behaviour score. Required scopes: open_api, open_api.driving_behaviour.",
+        "summary": "Gets organization driving behaviour score",
+        "operationId": "getDrivingBehaviourScoreForOrganization",
+        "security": [
+          {
+            "openId": [
+              "open_api",
+              "open_api.driving_behaviour"
+            ]
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DrivingBehaviourScore"
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "acceleration_score": 100,
+                      "braking_score": 100,
+                      "left_cornering_score": 100,
+                      "right_cornering_Score": 100,
+                      "idling_score": 100,
+                      "total_score": 100
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - no score found"
+          },
+          "416": {
+            "description": "Requested Range Not Satisfiable - Total amount of requested usage logs is above 45000, please request smaller time range."
+          }
+        }
+      }
+    },
+    "/v1/driving-behaviour/drivers/{driverId}": {
+      "get": {
+        "tags": [
+          "DrivingBehaviour"
+        ],
+        "description": "Gets driver driving behaviour score by id. Required scopes: open_api, open_api.driving_behaviour.",
+        "summary": "Gets driver driving behaviour score by id",
+        "operationId": "getDrivingBehaviourScoreForDriverById",
+        "security": [
+          {
+            "openId": [
+              "open_api",
+              "open_api.driving_behaviour"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "driverId",
+            "in": "path",
+            "description": "ID of a driver",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "d290f1ee6c544b0190e6d701748f0851"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DrivingBehaviourScore"
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "acceleration_score": 100,
+                      "braking_score": 100,
+                      "left_cornering_score": 100,
+                      "right_cornering_Score": 100,
+                      "idling_score": 100,
+                      "total_score": 100
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - no score found"
+          },
+          "416": {
+            "description": "Requested Range Not Satisfiable - Total amount of requested usage logs is above 45000, please request smaller time range."
+          }
+        }
+      }
+    },
+    "/v1/driving-behaviour/drivers": {
+      "get": {
+        "tags": [
+          "DrivingBehaviour"
+        ],
+        "description": "Gets driving behaviour scores for all the drivers the admin has access to. Required scopes: open_api, open_api.driving_behaviour.",
+        "summary": "Gets driving behaviour scores for all the drivers the admin has access to",
+        "operationId": "getDrivingBehaviourScoreForDrivers",
+        "security": [
+          {
+            "openId": [
+              "open_api",
+              "open_api.driving_behaviour"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Page size",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1500,
+              "minimum": 1,
+              "maximum": 1500
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "page_size": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/DrivingBehaviourDriverScore"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "page": 1,
+                      "page_size": 1500,
+                      "items": [
+                        {
+                          "driver_id": "90c5b884d50b46afa6eb3aa14792f782",
+                          "driver_name": "John Doe",
+                          "score": {
+                            "acceleration_score": 100,
+                            "braking_score": 100,
+                            "left_cornering_score": 100,
+                            "right_cornering_Score": 100,
+                            "idling_score": 100,
+                            "total_score": 100
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid parameters provided."
+          },
+          "401": {
+            "description": "Unauthorized - missing, invalid or expired token."
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          },
+          "404": {
+            "description": "Not found - no score found"
+          },
+          "416": {
+            "description": "Requested Range Not Satisfiable - Total amount of requested usage logs is above 45000, please request smaller time range."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiCapability": {
+        "properties": {
+          "capability": {
+            "type": "string",
+            "enum": [
+              "query-equipment",
+              "query-equipment-locations",
+              "query-people",
+              "query-vehicles",
+              "query-vehicle-locations",
+              "query-vehicle-location-history",
+              "query-vehicle-drive-states",
+              "query-trips",
+              "query-trip-route",
+              "query-trip-expense-and-extra"
+            ]
+          }
+        }
+      },
+      "UnitTypeParameter": {
+        "type": "string",
+        "enum": [
+          "Mini"
+        ]
+      },
+      "UnitHealth": {
+        "type": "string",
+        "enum": [
+          "Unknown",
+          "Healthy",
+          "Degraded",
+          "Unhealthy"
+        ]
+      },
+      "UnitStatus": {
+        "type": "string",
+        "enum": [
+          "Unknown",
+          "Active",
+          "Deactivated"
+        ]
+      },
+      "SignalSource": {
+        "type": "string",
+        "enum": [
+          "Gps",
+          "Gsm"
+        ]
+      },
+      "VehicleCommercialClass": {
+        "type": "string",
+        "enum": [
+          "Unknown",
+          "Private",
+          "Company",
+          "Commercial",
+          "CommercialWithPrivateUse"
+        ]
+      },
+      "LocationPoint": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "in UTC time"
+          },
+          "signal_source": {
+            "$ref": "#/components/schemas/SignalSource"
+          },
+          "accuracy_radius": {
+            "type": "number",
+            "nullable": true,
+            "description": "meters"
+          }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "speed": {
+            "type": "number",
+            "nullable": true,
+            "format": "float",
+            "description": "kilometers per hour, in some cases speed will not be returned due to privacy regulations"
+          },
+          "in_movement": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "course": {
+            "type": "number",
+            "nullable": true,
+            "format": "int32"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "in UTC time"
+          },
+          "signal_source": {
+            "$ref": "#/components/schemas/SignalSource"
+          },
+          "accuracy_radius": {
+            "type": "number",
+            "nullable": true,
+            "description": "meters"
+          }
+        }
+      },
+      "Manufacturer": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Model": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "LicensePlate": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string"
+          },
+          "registration_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "Driver": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "external_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Organization": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "OdometerReading": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "meters"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "in UTC time"
+          }
+        }
+      },
+      "FuelType": {
+        "type": "string",
+        "enum": [
+          "Unknown",
+          "Petrol",
+          "Electricity",
+          "Diesel",
+          "Lpg",
+          "DieselHybrid",
+          "PetrolHybrid"
+        ]
+      },
+      "EquipmentUnit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "serial_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "relay_unit": {
+            "$ref": "#/components/schemas/RelayUnit"
+          },
+          "type": {
+            "type": "string"
+          },
+          "health": {
+            "$ref": "#/components/schemas/UnitHealth"
+          },
+          "status": {
+            "$ref": "#/components/schemas/UnitStatus"
+          }
+        }
+      },
+      "VehicleUnit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "serial_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string"
+          },
+          "health": {
+            "$ref": "#/components/schemas/UnitHealth"
+          },
+          "status": {
+            "$ref": "#/components/schemas/UnitStatus"
+          }
+        }
+      },
+      "TripVehicle": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "alias": {
+            "type": "string"
+          },
+          "commercial_class": {
+            "$ref": "#/components/schemas/VehicleCommercialClass"
+          }
+        }
+      },
+      "Vehicle": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "asset_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "b28717939b3246fc823a544aece018d4",
+            "nullable": true
+          },
+          "vin": {
+            "type": "string",
+            "nullable": true
+          },
+          "alias": {
+            "type": "string"
+          },
+          "manufacturer": {
+            "$ref": "#/components/schemas/Manufacturer"
+          },
+          "model": {
+            "$ref": "#/components/schemas/Model"
+          },
+          "license_plate": {
+            "$ref": "#/components/schemas/LicensePlate"
+          },
+          "commercial_class": {
+            "$ref": "#/components/schemas/VehicleCommercialClass"
+          },
+          "registered_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "in UTC time"
+          },
+          "unit": {
+            "$ref": "#/components/schemas/VehicleUnit"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "driver": {
+            "$ref": "#/components/schemas/Driver"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/Organization"
+          },
+          "odometer": {
+            "$ref": "#/components/schemas/OdometerReading"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "fuel_type": {
+            "$ref": "#/components/schemas/FuelType"
+          },
+          "fuel_consumption": {
+            "type": "number",
+            "nullable": true,
+            "description": "For electric vehicles: kWh/100km, for UK: miles per gallon, for Norway and Sweden: liters per Scandinavian mile, otherwise: liters per 100km"
+          },
+          "engine_size": {
+            "type": "integer",
+            "nullable": true,
+            "description": "cubic centimeters (cc)"
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          },
+          "co2_emissions": {
+            "type": "number",
+            "nullable": true,
+            "description": "g/km"
+          }
+        }
+      },
+      "RelayUnit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "serial_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit_type": {
+            "type": "string"
+          },
+          "alias": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Trip": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "vehicle": {
+            "$ref": "#/components/schemas/TripVehicle"
+          },
+          "driver": {
+            "$ref": "#/components/schemas/Driver"
+          },
+          "start": {
+            "$ref": "#/components/schemas/TripPoint"
+          },
+          "finish": {
+            "$ref": "#/components/schemas/TripPoint"
+          },
+          "distance": {
+            "type": "integer",
+            "description": "meters",
+            "nullable": true
+          },
+          "purpose": {
+            "type": "string",
+            "nullable": true
+          },
+          "commercial_class": {
+            "$ref": "#/components/schemas/TripCommercialClass"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "duration": {
+            "type": "integer",
+            "nullable": true,
+            "description": "seconds"
+          },
+          "source": {
+            "$ref": "#/components/schemas/TripSource"
+          }
+        }
+      },
+      "TripOdometerReading": {
+        "type": "object",
+        "properties": {
+          "trip_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "trip_start": {
+            "$ref": "#/components/schemas/OdometerReading"
+          },
+          "trip_finish": {
+            "$ref": "#/components/schemas/OdometerReading"
+          }
+        }
+      },
+      "ExpenseAndExtra": {
+        "type": "object",
+        "properties": {
+          "trip_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "expense": {
+            "$ref": "#/components/schemas/Expense"
+          },
+          "extra": {
+            "$ref": "#/components/schemas/Extra"
+          }
+        }
+      },
+      "Expense": {
+        "type": "object",
+        "properties": {
+          "parking": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "easy_park_private": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "easy_park_corporate": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "toll_road_admin": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "toll_charge": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "ferry": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          }
+        }
+      },
+      "Extra": {
+        "type": "object",
+        "properties": {
+          "distance_with_bad_road_in_km": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "distance_with_trailer_in_km": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "distance_with_caravan_in_km": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "distance_with_canteen_in_km": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "distance_with_heavy_load_in_km": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "distance_with_dog_in_km": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "distance_with_passenger_in_km": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "passenger_name": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "TripRoute": {
+        "type": "object",
+        "properties": {
+          "trip_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TripRouteLocation"
+            }
+          }
+        }
+      },
+      "TripCommercialClass": {
+        "type": "string",
+        "enum": [
+          "Unknown",
+          "PrivateTrip",
+          "BusinessTrip",
+          "Commute"
+        ]
+      },
+      "TripSource": {
+        "type": "string",
+        "enum": [
+          "Automatic",
+          "Manual"
+        ]
+      },
+      "TripPoint": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "$ref": "#/components/schemas/LocationPoint"
+          },
+          "address": {
+            "type": "string",
+            "nullable": true,
+            "description": "in some cases address will not have house number due to privacy regulations"
+          }
+        }
+      },
+      "OperatingHours": {
+        "type": "object",
+        "properties": {
+          "hours": {
+            "type": "number",
+            "format": "double"
+          },
+          "unit_driven": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Equipment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "asset_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "947a0543bb4446dc98e17069f659be7c",
+            "nullable": true
+          },
+          "pin": {
+            "type": "string",
+            "nullable": true
+          },
+          "alias": {
+            "type": "string",
+            "nullable": true
+          },
+          "serial_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "equipment_identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "registered_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "in UTC time"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "operating_hours": {
+            "$ref": "#/components/schemas/OperatingHours"
+          },
+          "initial_operating_hours": {
+            "$ref": "#/components/schemas/OperatingHours"
+          },
+          "model": {
+            "$ref": "#/components/schemas/Model"
+          },
+          "unit": {
+            "$ref": "#/components/schemas/EquipmentUnit"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/Organization"
+          }
+        }
+      },
+      "VehicleRecentLocations": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Location"
+            }
+          }
+        }
+      },
+      "EquipmentLocation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          }
+        }
+      },
+      "VehicleLocation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          }
+        }
+      },
+      "TripRouteLocation": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "speed": {
+            "type": "number",
+            "nullable": true,
+            "format": "float",
+            "description": "kilometers per hour, in some cases speed will not be returned due to privacy regulations"
+          },
+          "in_movement": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "course": {
+            "type": "number",
+            "nullable": true,
+            "format": "int32"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "in UTC time"
+          },
+          "signal_source": {
+            "$ref": "#/components/schemas/SignalSource"
+          }
+        }
+      },
+      "VehicleDriveState": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "drive_state": {
+            "$ref": "#/components/schemas/DriveState"
+          }
+        }
+      },
+      "DriveState": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "$ref": "#/components/schemas/DriveStateValue"
+          },
+          "timestamp": {
+            "type": "string",
+            "nullable": true,
+            "format": "date-time",
+            "description": "in UTC time"
+          }
+        }
+      },
+      "DriveStateValue": {
+        "type": "string",
+        "enum": [
+          "Unknown",
+          "Parked",
+          "Moving",
+          "Idling"
+        ]
+      },
+      "Person": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "external_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "contact": {
+            "$ref": "#/components/schemas/ContactInformation"
+          }
+        }
+      },
+      "CompanyInfo": {
+        "type": "object",
+        "properties": {
+          "companyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "emailContact": {
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxRegistrationNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/CompanyAddress"
+          }
+        }
+      },
+      "CompanyAddress": {
+        "type": "object",
+        "properties": {
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ContactInformation": {
+        "type": "object",
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "EquipmentV2": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee6c544b0190e6d701748f0851"
+          },
+          "asset_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "947a0543bb4446dc98e17069f659be7c",
+            "nullable": true
+          },
+          "pin": {
+            "type": "string",
+            "nullable": true
+          },
+          "alias": {
+            "type": "string",
+            "nullable": true
+          },
+          "serial_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "equipment_identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "registered_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "in UTC time"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "$ref": "#/components/schemas/Model"
+          },
+          "unit": {
+            "$ref": "#/components/schemas/EquipmentUnit"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/Organization"
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Input"
+            }
+          }
+        }
+      },
+      "Input": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/InputType"
+          },
+          "name": {
+            "type": "string"
+          },
+          "accumulated_usage_time_seconds": {
+            "type": "number",
+            "format": "int32"
+          },
+          "accumulated_usage_time_last_service_hours": {
+            "type": "number",
+            "format": "int32"
+          },
+          "service_interval_hours": {
+            "type": "number",
+            "format": "int32"
+          },
+          "initial_usage_time_hours": {
+            "type": "number",
+            "format": "int32"
+          },
+          "service_alert_limit_hours": {
+            "type": "number",
+            "format": "int32"
+          },
+          "usage_time_since_last_service_hours": {
+            "type": "number",
+            "format": "int32"
+          }
+        }
+      },
+      "InputType": {
+        "type": "string",
+        "enum": [
+          "Yellow",
+          "White",
+          "Blue"
+        ]
+      },
+      "SensorData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "sensor_data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SensorReading"
+            }
+          }
+        }
+      },
+      "SensorReading": {
+        "type": "object",
+        "properties": {
+          "sensor_id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "in UTC time"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "int_value": {
+            "type": "integer",
+            "nullable": true,
+            "format": "int64"
+          },
+          "numeric_value": {
+            "type": "number",
+            "nullable": true,
+            "format": "double"
+          },
+          "bool_value": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "string_value": {
+            "type": "string"
+          }
+        }
+      },
+      "UsageLog": {
+        "type": "object",
+        "properties": {
+          "equipment_id": {
+            "type": "string"
+          },
+          "usage_log_id": {
+            "type": "number",
+            "format": "int64"
+          },
+          "address": {
+            "type": "string"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "in UTC time"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "in UTC time"
+          },
+          "input_type": {
+            "type": "string",
+            "enum": [
+              "Yellow",
+              "White",
+              "Blue"
+            ]
+          },
+          "usage": {
+            "type": "number",
+            "format": "int64"
+          }
+        }
+      },
+      "DrivingBehaviourDriverScore": {
+        "type": "object",
+        "properties": {
+          "driver_id": {
+            "type": "string"
+          },
+          "driver_name": {
+            "type": "string"
+          },
+          "score": {
+            "$ref": "#/components/schemas/DrivingBehaviourScore"
+          }
+        }
+      },
+      "DrivingBehaviourScore": {
+        "type": "object",
+        "properties": {
+          "acceleration_score": {
+            "type": "integer"
+          },
+          "braking_score": {
+            "type": "integer"
+          },
+          "left_cornering_score": {
+            "type": "integer"
+          },
+          "right_cornering_Score": {
+            "type": "integer"
+          },
+          "idling_score": {
+            "type": "integer"
+          },
+          "total_score": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "openId": {
+        "type": "openIdConnect",
+        "openIdConnectUrl": "https://identity.abax.cloud/.well-known/openid-configuration"
+      }
+    }
+  },
+  "security": [
+    {
+      "openId": [
+        "offline_access",
+        "abax_profile",
+        "openid",
+        "open_api",
+        "open_api.equipment",
+        "open_api.vehicles",
+        "open_api.trips",
+        "open_api.organization",
+        "open_api.driving_behaviour"
+      ]
+    }
+  ]
+}
