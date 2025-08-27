@@ -10,6 +10,7 @@ require (
 	github.com/way-platform/abax-go v0.0.0-00010101000000-000000000000
 	golang.org/x/oauth2 v0.30.0
 	golang.org/x/term v0.32.0
+	google.golang.org/protobuf v1.36.8
 )
 
 require (

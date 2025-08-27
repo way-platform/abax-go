@@ -2,8 +2,157 @@ edition = "2023";
 
 package wayplatform.connect.abax.v1;
 
+import "google/protobuf/timestamp.proto";
+import "wayplatform/connect/abax/v1/location.proto";
+
 // A vehicle.
 message Vehicle {
-  // TODO: Add field documentation.
+  // The unique identifier of the vehicle.
   string id = 1;
+
+  // The unique identifier of the vehicle's telematics asset.
+  string asset_id = 2;
+
+  // The vehicle identification number (VIN).
+  string vin = 3;
+
+  // The vehicle's alias.
+  string alias = 4;
+
+  // The vehicle's manufacturer name.
+  string manufacturer_name = 5;
+
+  // The vehicle's model name.
+  string model_name = 6;
+
+  // The license plate number.
+  string license_plate_number = 7;
+
+  // The registration date of the license plate.
+  google.protobuf.Timestamp license_plate_registration_time = 8;
+
+  // The commercial classification of the vehicle.
+  CommercialClass commercial_class = 9;
+
+  // The unknown commercial classification of the vehicle.
+  // This value is used when commercial_class is COMMERCIAL_CLASS_UNKNOWN.
+  string unknown_commercial_class = 10;
+
+  // Vehicle commercial classification.
+  enum CommercialClass {
+    COMMERCIAL_CLASS_UNSPECIFIED = 0;
+    COMMERCIAL_CLASS_UNKNOWN = 1;
+    COMMERCIAL_CLASS_NOT_AVAILABLE = 2;
+    PRIVATE = 3;
+    COMPANY = 4;
+    COMMERCIAL = 5;
+    COMMERCIAL_WITH_PRIVATE_USE = 6;
+  }
+
+  // The registration date of the vehicle (in UTC time).
+  google.protobuf.Timestamp registered_time = 11;
+
+  // The unique identifier of the telematics unit.
+  string unit_id = 12;
+
+  // The serial number of the telematics unit.
+  string unit_serial_number = 13;
+
+  // The type of the telematics unit.
+  string unit_type = 14;
+
+  // The health status of the telematics unit.
+  UnitHealth unit_health = 15;
+
+  // The unknown health status of the telematics unit.
+  // This value is used when unit_health is UNIT_HEALTH_UNKNOWN.
+  string unknown_unit_health = 16;
+
+  // Unit health status.
+  enum UnitHealth {
+    UNIT_HEALTH_UNSPECIFIED = 0;
+    UNIT_HEALTH_UNKNOWN = 1;
+    UNIT_HEALTH_NOT_AVAILABLE = 2;
+    HEALTHY = 3;
+    DEGRADED = 4;
+    UNHEALTHY = 5;
+  }
+
+  // The operational status of the telematics unit.
+  UnitStatus unit_status = 17;
+
+  // The unknown operational status of the telematics unit.
+  // This value is used when unit_status is UNIT_STATUS_UNKNOWN.
+  string unknown_unit_status = 18;
+
+  // Unit operational status.
+  enum UnitStatus {
+    UNIT_STATUS_UNSPECIFIED = 0;
+    UNIT_STATUS_UNKNOWN = 1;
+    UNIT_STATUS_NOT_AVAILABLE = 2;
+    ACTIVE = 3;
+    DEACTIVATED = 4;
+  }
+
+  // The current location of the vehicle.
+  Location location = 19;
+
+  // The unique identifier of the current driver.
+  string driver_id = 20;
+
+  // External identifier for the current driver.
+  string driver_external_id = 21;
+
+  // The name of the current driver.
+  string driver_name = 22;
+
+  // The unique identifier of the organization that owns the vehicle.
+  string organization_id = 23;
+
+  // The name of the organization that owns the vehicle.
+  string organization_name = 24;
+
+  // The current odometer reading in meters.
+  double odometer_m = 25;
+
+  // The timestamp when the odometer reading was taken.
+  google.protobuf.Timestamp odometer_time = 26;
+
+  // Additional notes about the vehicle.
+  string notes = 27;
+
+  // The fuel type of the vehicle.
+  FuelType fuel_type = 28;
+
+  // The unknown fuel type of the vehicle.
+  // This value is used when fuel_type is FUEL_TYPE_UNKNOWN.
+  string unknown_fuel_type = 29;
+
+  // Vehicle fuel type.
+  enum FuelType {
+    FUEL_TYPE_UNSPECIFIED = 0;
+    FUEL_TYPE_UNKNOWN = 1;
+    FUEL_TYPE_NOT_AVAILABLE = 2;
+    PETROL = 3;
+    ELECTRICITY = 4;
+    DIESEL = 5;
+    LPG = 6;
+    DIESEL_HYBRID = 7;
+    PETROL_HYBRID = 8;
+  }
+
+  // The fuel consumption of the vehicle.
+  // For electric vehicles: kWh/100km, for UK: miles per gallon,
+  // for Norway and Sweden: liters per Scandinavian mile,
+  // otherwise: liters per 100km.
+  double fuel_consumption_varies = 30;
+
+  // The engine size in cubic centimeters (cc).
+  double engine_size_cc = 31;
+
+  // The color of the vehicle.
+  string color = 32;
+
+  // CO2 emissions in g/km.
+  double co2_emissions_g_km = 33;
 }
