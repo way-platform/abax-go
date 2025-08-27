@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -14,14 +15,16 @@ import (
 )
 
 // NewClient creates a new Abax API client using the current CLI credentials.
-func NewClient() (*abax.Client, error) {
+func NewClient(ctx context.Context) (*abax.Client, error) {
 	cf, err := readFile()
 	if err != nil {
 		return nil, err
 	}
-	_ = cf // TODO: Provide auth.
 	return abax.NewClient(
-	// TODO: Provide auth.
+		ctx,
+		abax.WithClientID(cf.ClientID),
+		abax.WithClientSecret(cf.ClientSecret),
+		abax.WithRefreshToken(cf.Token.RefreshToken),
 	)
 }
 
@@ -42,21 +45,44 @@ func newLoginCommand() *cobra.Command {
 		Use:   "login",
 		Short: "Login to the ABAX Open API",
 	}
-	token := cmd.Flags().String("token", "-", "access token to use for authentication")
+	clientID := cmd.Flags().String("client-id", "-", "client ID to use for authentication")
+	clientSecret := cmd.Flags().String("client-secret", "-", "client secret to use for authentication")
+	refreshToken := cmd.Flags().String("refresh-token", "-", "refresh token to use for authentication")
 	// TODO: Support 3-legged auth flow.
 	cmd.RunE = func(cmd *cobra.Command, _ []string) error {
-		if *token == "-" {
-			cmd.Println("\nEnter access token:")
+		if *clientID == "" {
+			cmd.Println("\nEnter client ID:")
 			input, err := term.ReadPassword(int(os.Stdin.Fd()))
 			if err != nil {
 				return err
 			}
-			*token = string(input)
+			*clientID = string(input)
+		}
+		if *clientSecret == "-" {
+			cmd.Println("\nEnter client secret:")
+			input, err := term.ReadPassword(int(os.Stdin.Fd()))
+			if err != nil {
+				return err
+			}
+			*clientSecret = string(input)
+		}
+		if *refreshToken == "-" {
+			cmd.Println("\nEnter refresh token:")
+			input, err := term.ReadPassword(int(os.Stdin.Fd()))
+			if err != nil {
+				return err
+			}
+			*refreshToken = string(input)
+		}
+		oauth2Config := abax.NewOAuth2Config(*clientID, *clientSecret)
+		token, err := oauth2Config.Token(cmd.Context())
+		if err != nil {
+			return err
 		}
 		if err := writeFile(&File{
-			Token: oauth2.Token{
-				AccessToken: *token,
-			},
+			ClientID:     *clientID,
+			ClientSecret: *clientSecret,
+			Token:        *token,
 		}); err != nil {
 			return err
 		}
@@ -82,7 +108,10 @@ func newLogoutCommand() *cobra.Command {
 
 // File storing authentication credentials for the CLI.
 type File struct {
-	Token oauth2.Token `json:"token"`
+	// TODO: Don't cache these sensitive fields on disk.
+	ClientID     string       `json:"client_id"`
+	ClientSecret string       `json:"client_secret"`
+	Token        oauth2.Token `json:"token"`
 }
 
 func (cf *File) isExpired() bool {
