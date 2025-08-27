@@ -2,13 +2,16 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"image/color"
 	"os"
 
 	"github.com/charmbracelet/fang"
 	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/spf13/cobra"
+	"github.com/way-platform/abax-go"
 	"github.com/way-platform/abax-go/cmd/abax/internal/auth"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func main() {
@@ -46,11 +49,64 @@ func newRootCommand() *cobra.Command {
 	}
 	cmd.AddGroup(auth.NewGroup())
 	cmd.AddCommand(auth.NewCommand())
+	cmd.AddGroup(newVehiclesGroup())
+	cmd.AddCommand(newVehiclesCommand())
 	cmd.AddGroup(&cobra.Group{
 		ID:    "utils",
 		Title: "Utils",
 	})
 	cmd.SetHelpCommandGroupID("utils")
 	cmd.SetCompletionCommandGroupID("utils")
+	return cmd
+}
+
+func newVehiclesGroup() *cobra.Group {
+	return &cobra.Group{
+		ID:    "vehicles",
+		Title: "Vehicles",
+	}
+}
+
+func newVehiclesCommand() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "vehicles",
+		Short:   "Vehicles",
+		GroupID: "vehicles",
+	}
+	page := cmd.Flags().Int32("page", 1, "page number to fetch")
+	pageSize := cmd.Flags().Int32("page-size", 1500, "number of vehicles to fetch per page")
+	cmd.RunE = func(cmd *cobra.Command, args []string) error {
+		cf, err := auth.ReadFile()
+		if err != nil {
+			return err
+		}
+		client, err := abax.NewClient(
+			cmd.Context(),
+			abax.WithClientID(cf.ClientID),
+			abax.WithClientSecret(cf.ClientSecret),
+			abax.WithRefreshToken(cf.Token.RefreshToken),
+		)
+		if err != nil {
+			return err
+		}
+		request := &abax.ListVehiclesRequest{
+			Page:     *page,
+			PageSize: *pageSize,
+		}
+		for {
+			response, err := client.ListVehicles(cmd.Context(), request)
+			if err != nil {
+				return err
+			}
+			for _, vehicle := range response.Vehicles {
+				fmt.Println(protojson.Format(vehicle))
+			}
+			if len(response.Vehicles) < int(response.PageSize) {
+				break
+			}
+			request.Page++
+		}
+		return nil
+	}
 	return cmd
 }

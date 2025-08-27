@@ -1,0 +1,45 @@
+edition = "2023";
+
+package wayplatform.connect.abax.v1;
+
+import "google/protobuf/timestamp.proto";
+
+// Geographic location with additional telemetry data.
+message Location {
+  // Latitude coordinate.
+  double latitude = 1;
+
+  // Longitude coordinate.
+  double longitude = 2;
+
+  // Speed in kilometers per hour.
+  // In some cases speed will not be returned due to privacy regulations.
+  double speed_kmh = 3;
+
+  // Whether the vehicle is currently in movement.
+  bool in_movement = 4;
+
+  // Course/heading direction in degrees.
+  double course_deg = 5;
+
+  // Timestamp when the location was recorded (in UTC time).
+  google.protobuf.Timestamp timestamp = 6;
+
+  // Source of the location signal.
+  SignalSource signal_source = 7;
+
+  // The unknown signal source of the location.
+  // This is used when signal_source is SIGNAL_SOURCE_UNKNOWN.
+  string unknown_signal_source = 8;
+
+  // Signal source for location data.
+  enum SignalSource {
+    SIGNAL_SOURCE_UNSPECIFIED = 0;
+    SIGNAL_SOURCE_UNKNOWN = 1;
+    GPS = 2;
+    GSM = 3;
+  }
+
+  // Accuracy radius in meters.
+  double accuracy_radius_m = 9;
+}

@@ -9,6 +9,7 @@ package abaxv1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	unsafe "unsafe"
 )
@@ -20,14 +21,271 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Vehicle commercial classification.
+type Vehicle_CommercialClass int32
+
+const (
+	Vehicle_COMMERCIAL_CLASS_UNSPECIFIED   Vehicle_CommercialClass = 0
+	Vehicle_COMMERCIAL_CLASS_UNKNOWN       Vehicle_CommercialClass = 1
+	Vehicle_COMMERCIAL_CLASS_NOT_AVAILABLE Vehicle_CommercialClass = 2
+	Vehicle_PRIVATE                        Vehicle_CommercialClass = 3
+	Vehicle_COMPANY                        Vehicle_CommercialClass = 4
+	Vehicle_COMMERCIAL                     Vehicle_CommercialClass = 5
+	Vehicle_COMMERCIAL_WITH_PRIVATE_USE    Vehicle_CommercialClass = 6
+)
+
+// Enum value maps for Vehicle_CommercialClass.
+var (
+	Vehicle_CommercialClass_name = map[int32]string{
+		0: "COMMERCIAL_CLASS_UNSPECIFIED",
+		1: "COMMERCIAL_CLASS_UNKNOWN",
+		2: "COMMERCIAL_CLASS_NOT_AVAILABLE",
+		3: "PRIVATE",
+		4: "COMPANY",
+		5: "COMMERCIAL",
+		6: "COMMERCIAL_WITH_PRIVATE_USE",
+	}
+	Vehicle_CommercialClass_value = map[string]int32{
+		"COMMERCIAL_CLASS_UNSPECIFIED":   0,
+		"COMMERCIAL_CLASS_UNKNOWN":       1,
+		"COMMERCIAL_CLASS_NOT_AVAILABLE": 2,
+		"PRIVATE":                        3,
+		"COMPANY":                        4,
+		"COMMERCIAL":                     5,
+		"COMMERCIAL_WITH_PRIVATE_USE":    6,
+	}
+)
+
+func (x Vehicle_CommercialClass) Enum() *Vehicle_CommercialClass {
+	p := new(Vehicle_CommercialClass)
+	*p = x
+	return p
+}
+
+func (x Vehicle_CommercialClass) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Vehicle_CommercialClass) Descriptor() protoreflect.EnumDescriptor {
+	return file_wayplatform_connect_abax_v1_vehicle_proto_enumTypes[0].Descriptor()
+}
+
+func (Vehicle_CommercialClass) Type() protoreflect.EnumType {
+	return &file_wayplatform_connect_abax_v1_vehicle_proto_enumTypes[0]
+}
+
+func (x Vehicle_CommercialClass) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Unit health status.
+type Vehicle_UnitHealth int32
+
+const (
+	Vehicle_UNIT_HEALTH_UNSPECIFIED   Vehicle_UnitHealth = 0
+	Vehicle_UNIT_HEALTH_UNKNOWN       Vehicle_UnitHealth = 1
+	Vehicle_UNIT_HEALTH_NOT_AVAILABLE Vehicle_UnitHealth = 2
+	Vehicle_HEALTHY                   Vehicle_UnitHealth = 3
+	Vehicle_DEGRADED                  Vehicle_UnitHealth = 4
+	Vehicle_UNHEALTHY                 Vehicle_UnitHealth = 5
+)
+
+// Enum value maps for Vehicle_UnitHealth.
+var (
+	Vehicle_UnitHealth_name = map[int32]string{
+		0: "UNIT_HEALTH_UNSPECIFIED",
+		1: "UNIT_HEALTH_UNKNOWN",
+		2: "UNIT_HEALTH_NOT_AVAILABLE",
+		3: "HEALTHY",
+		4: "DEGRADED",
+		5: "UNHEALTHY",
+	}
+	Vehicle_UnitHealth_value = map[string]int32{
+		"UNIT_HEALTH_UNSPECIFIED":   0,
+		"UNIT_HEALTH_UNKNOWN":       1,
+		"UNIT_HEALTH_NOT_AVAILABLE": 2,
+		"HEALTHY":                   3,
+		"DEGRADED":                  4,
+		"UNHEALTHY":                 5,
+	}
+)
+
+func (x Vehicle_UnitHealth) Enum() *Vehicle_UnitHealth {
+	p := new(Vehicle_UnitHealth)
+	*p = x
+	return p
+}
+
+func (x Vehicle_UnitHealth) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Vehicle_UnitHealth) Descriptor() protoreflect.EnumDescriptor {
+	return file_wayplatform_connect_abax_v1_vehicle_proto_enumTypes[1].Descriptor()
+}
+
+func (Vehicle_UnitHealth) Type() protoreflect.EnumType {
+	return &file_wayplatform_connect_abax_v1_vehicle_proto_enumTypes[1]
+}
+
+func (x Vehicle_UnitHealth) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Unit operational status.
+type Vehicle_UnitStatus int32
+
+const (
+	Vehicle_UNIT_STATUS_UNSPECIFIED   Vehicle_UnitStatus = 0
+	Vehicle_UNIT_STATUS_UNKNOWN       Vehicle_UnitStatus = 1
+	Vehicle_UNIT_STATUS_NOT_AVAILABLE Vehicle_UnitStatus = 2
+	Vehicle_ACTIVE                    Vehicle_UnitStatus = 3
+	Vehicle_DEACTIVATED               Vehicle_UnitStatus = 4
+)
+
+// Enum value maps for Vehicle_UnitStatus.
+var (
+	Vehicle_UnitStatus_name = map[int32]string{
+		0: "UNIT_STATUS_UNSPECIFIED",
+		1: "UNIT_STATUS_UNKNOWN",
+		2: "UNIT_STATUS_NOT_AVAILABLE",
+		3: "ACTIVE",
+		4: "DEACTIVATED",
+	}
+	Vehicle_UnitStatus_value = map[string]int32{
+		"UNIT_STATUS_UNSPECIFIED":   0,
+		"UNIT_STATUS_UNKNOWN":       1,
+		"UNIT_STATUS_NOT_AVAILABLE": 2,
+		"ACTIVE":                    3,
+		"DEACTIVATED":               4,
+	}
+)
+
+func (x Vehicle_UnitStatus) Enum() *Vehicle_UnitStatus {
+	p := new(Vehicle_UnitStatus)
+	*p = x
+	return p
+}
+
+func (x Vehicle_UnitStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Vehicle_UnitStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_wayplatform_connect_abax_v1_vehicle_proto_enumTypes[2].Descriptor()
+}
+
+func (Vehicle_UnitStatus) Type() protoreflect.EnumType {
+	return &file_wayplatform_connect_abax_v1_vehicle_proto_enumTypes[2]
+}
+
+func (x Vehicle_UnitStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Vehicle fuel type.
+type Vehicle_FuelType int32
+
+const (
+	Vehicle_FUEL_TYPE_UNSPECIFIED   Vehicle_FuelType = 0
+	Vehicle_FUEL_TYPE_UNKNOWN       Vehicle_FuelType = 1
+	Vehicle_FUEL_TYPE_NOT_AVAILABLE Vehicle_FuelType = 2
+	Vehicle_PETROL                  Vehicle_FuelType = 3
+	Vehicle_ELECTRICITY             Vehicle_FuelType = 4
+	Vehicle_DIESEL                  Vehicle_FuelType = 5
+	Vehicle_LPG                     Vehicle_FuelType = 6
+	Vehicle_DIESEL_HYBRID           Vehicle_FuelType = 7
+	Vehicle_PETROL_HYBRID           Vehicle_FuelType = 8
+)
+
+// Enum value maps for Vehicle_FuelType.
+var (
+	Vehicle_FuelType_name = map[int32]string{
+		0: "FUEL_TYPE_UNSPECIFIED",
+		1: "FUEL_TYPE_UNKNOWN",
+		2: "FUEL_TYPE_NOT_AVAILABLE",
+		3: "PETROL",
+		4: "ELECTRICITY",
+		5: "DIESEL",
+		6: "LPG",
+		7: "DIESEL_HYBRID",
+		8: "PETROL_HYBRID",
+	}
+	Vehicle_FuelType_value = map[string]int32{
+		"FUEL_TYPE_UNSPECIFIED":   0,
+		"FUEL_TYPE_UNKNOWN":       1,
+		"FUEL_TYPE_NOT_AVAILABLE": 2,
+		"PETROL":                  3,
+		"ELECTRICITY":             4,
+		"DIESEL":                  5,
+		"LPG":                     6,
+		"DIESEL_HYBRID":           7,
+		"PETROL_HYBRID":           8,
+	}
+)
+
+func (x Vehicle_FuelType) Enum() *Vehicle_FuelType {
+	p := new(Vehicle_FuelType)
+	*p = x
+	return p
+}
+
+func (x Vehicle_FuelType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Vehicle_FuelType) Descriptor() protoreflect.EnumDescriptor {
+	return file_wayplatform_connect_abax_v1_vehicle_proto_enumTypes[3].Descriptor()
+}
+
+func (Vehicle_FuelType) Type() protoreflect.EnumType {
+	return &file_wayplatform_connect_abax_v1_vehicle_proto_enumTypes[3]
+}
+
+func (x Vehicle_FuelType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
 // A vehicle.
 type Vehicle struct {
-	state                  protoimpl.MessageState `protogen:"opaque.v1"`
-	xxx_hidden_Id          *string                `protobuf:"bytes,1,opt,name=id"`
-	XXX_raceDetectHookData protoimpl.RaceDetectHookData
-	XXX_presence           [1]uint32
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	state                                   protoimpl.MessageState  `protogen:"opaque.v1"`
+	xxx_hidden_Id                           *string                 `protobuf:"bytes,1,opt,name=id"`
+	xxx_hidden_AssetId                      *string                 `protobuf:"bytes,2,opt,name=asset_id,json=assetId"`
+	xxx_hidden_Vin                          *string                 `protobuf:"bytes,3,opt,name=vin"`
+	xxx_hidden_Alias                        *string                 `protobuf:"bytes,4,opt,name=alias"`
+	xxx_hidden_ManufacturerName             *string                 `protobuf:"bytes,5,opt,name=manufacturer_name,json=manufacturerName"`
+	xxx_hidden_ModelName                    *string                 `protobuf:"bytes,6,opt,name=model_name,json=modelName"`
+	xxx_hidden_LicensePlateNumber           *string                 `protobuf:"bytes,7,opt,name=license_plate_number,json=licensePlateNumber"`
+	xxx_hidden_LicensePlateRegistrationTime *timestamppb.Timestamp  `protobuf:"bytes,8,opt,name=license_plate_registration_time,json=licensePlateRegistrationTime"`
+	xxx_hidden_CommercialClass              Vehicle_CommercialClass `protobuf:"varint,9,opt,name=commercial_class,json=commercialClass,enum=wayplatform.connect.abax.v1.Vehicle_CommercialClass"`
+	xxx_hidden_UnknownCommercialClass       *string                 `protobuf:"bytes,10,opt,name=unknown_commercial_class,json=unknownCommercialClass"`
+	xxx_hidden_RegisteredTime               *timestamppb.Timestamp  `protobuf:"bytes,11,opt,name=registered_time,json=registeredTime"`
+	xxx_hidden_UnitId                       *string                 `protobuf:"bytes,12,opt,name=unit_id,json=unitId"`
+	xxx_hidden_UnitSerialNumber             *string                 `protobuf:"bytes,13,opt,name=unit_serial_number,json=unitSerialNumber"`
+	xxx_hidden_UnitType                     *string                 `protobuf:"bytes,14,opt,name=unit_type,json=unitType"`
+	xxx_hidden_UnitHealth                   Vehicle_UnitHealth      `protobuf:"varint,15,opt,name=unit_health,json=unitHealth,enum=wayplatform.connect.abax.v1.Vehicle_UnitHealth"`
+	xxx_hidden_UnknownUnitHealth            *string                 `protobuf:"bytes,16,opt,name=unknown_unit_health,json=unknownUnitHealth"`
+	xxx_hidden_UnitStatus                   Vehicle_UnitStatus      `protobuf:"varint,17,opt,name=unit_status,json=unitStatus,enum=wayplatform.connect.abax.v1.Vehicle_UnitStatus"`
+	xxx_hidden_UnknownUnitStatus            *string                 `protobuf:"bytes,18,opt,name=unknown_unit_status,json=unknownUnitStatus"`
+	xxx_hidden_Location                     *Location               `protobuf:"bytes,19,opt,name=location"`
+	xxx_hidden_DriverId                     *string                 `protobuf:"bytes,20,opt,name=driver_id,json=driverId"`
+	xxx_hidden_DriverExternalId             *string                 `protobuf:"bytes,21,opt,name=driver_external_id,json=driverExternalId"`
+	xxx_hidden_DriverName                   *string                 `protobuf:"bytes,22,opt,name=driver_name,json=driverName"`
+	xxx_hidden_OrganizationId               *string                 `protobuf:"bytes,23,opt,name=organization_id,json=organizationId"`
+	xxx_hidden_OrganizationName             *string                 `protobuf:"bytes,24,opt,name=organization_name,json=organizationName"`
+	xxx_hidden_OdometerM                    float64                 `protobuf:"fixed64,25,opt,name=odometer_m,json=odometerM"`
+	xxx_hidden_OdometerTime                 *timestamppb.Timestamp  `protobuf:"bytes,26,opt,name=odometer_time,json=odometerTime"`
+	xxx_hidden_Notes                        *string                 `protobuf:"bytes,27,opt,name=notes"`
+	xxx_hidden_FuelType                     Vehicle_FuelType        `protobuf:"varint,28,opt,name=fuel_type,json=fuelType,enum=wayplatform.connect.abax.v1.Vehicle_FuelType"`
+	xxx_hidden_UnknownFuelType              *string                 `protobuf:"bytes,29,opt,name=unknown_fuel_type,json=unknownFuelType"`
+	xxx_hidden_FuelConsumptionVaries        float64                 `protobuf:"fixed64,30,opt,name=fuel_consumption_varies,json=fuelConsumptionVaries"`
+	xxx_hidden_EngineSizeCc                 float64                 `protobuf:"fixed64,31,opt,name=engine_size_cc,json=engineSizeCc"`
+	xxx_hidden_Color                        *string                 `protobuf:"bytes,32,opt,name=color"`
+	xxx_hidden_Co2EmissionsGKm              float64                 `protobuf:"fixed64,33,opt,name=co2_emissions_g_km,json=co2EmissionsGKm"`
+	XXX_raceDetectHookData                  protoimpl.RaceDetectHookData
+	XXX_presence                            [2]uint32
+	unknownFields                           protoimpl.UnknownFields
+	sizeCache                               protoimpl.SizeCache
 }
 
 func (x *Vehicle) Reset() {
@@ -65,9 +323,457 @@ func (x *Vehicle) GetId() string {
 	return ""
 }
 
+func (x *Vehicle) GetAssetId() string {
+	if x != nil {
+		if x.xxx_hidden_AssetId != nil {
+			return *x.xxx_hidden_AssetId
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetVin() string {
+	if x != nil {
+		if x.xxx_hidden_Vin != nil {
+			return *x.xxx_hidden_Vin
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetAlias() string {
+	if x != nil {
+		if x.xxx_hidden_Alias != nil {
+			return *x.xxx_hidden_Alias
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetManufacturerName() string {
+	if x != nil {
+		if x.xxx_hidden_ManufacturerName != nil {
+			return *x.xxx_hidden_ManufacturerName
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetModelName() string {
+	if x != nil {
+		if x.xxx_hidden_ModelName != nil {
+			return *x.xxx_hidden_ModelName
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetLicensePlateNumber() string {
+	if x != nil {
+		if x.xxx_hidden_LicensePlateNumber != nil {
+			return *x.xxx_hidden_LicensePlateNumber
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetLicensePlateRegistrationTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.xxx_hidden_LicensePlateRegistrationTime
+	}
+	return nil
+}
+
+func (x *Vehicle) GetCommercialClass() Vehicle_CommercialClass {
+	if x != nil {
+		if protoimpl.X.Present(&(x.XXX_presence[0]), 8) {
+			return x.xxx_hidden_CommercialClass
+		}
+	}
+	return Vehicle_COMMERCIAL_CLASS_UNSPECIFIED
+}
+
+func (x *Vehicle) GetUnknownCommercialClass() string {
+	if x != nil {
+		if x.xxx_hidden_UnknownCommercialClass != nil {
+			return *x.xxx_hidden_UnknownCommercialClass
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetRegisteredTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.xxx_hidden_RegisteredTime
+	}
+	return nil
+}
+
+func (x *Vehicle) GetUnitId() string {
+	if x != nil {
+		if x.xxx_hidden_UnitId != nil {
+			return *x.xxx_hidden_UnitId
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetUnitSerialNumber() string {
+	if x != nil {
+		if x.xxx_hidden_UnitSerialNumber != nil {
+			return *x.xxx_hidden_UnitSerialNumber
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetUnitType() string {
+	if x != nil {
+		if x.xxx_hidden_UnitType != nil {
+			return *x.xxx_hidden_UnitType
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetUnitHealth() Vehicle_UnitHealth {
+	if x != nil {
+		if protoimpl.X.Present(&(x.XXX_presence[0]), 14) {
+			return x.xxx_hidden_UnitHealth
+		}
+	}
+	return Vehicle_UNIT_HEALTH_UNSPECIFIED
+}
+
+func (x *Vehicle) GetUnknownUnitHealth() string {
+	if x != nil {
+		if x.xxx_hidden_UnknownUnitHealth != nil {
+			return *x.xxx_hidden_UnknownUnitHealth
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetUnitStatus() Vehicle_UnitStatus {
+	if x != nil {
+		if protoimpl.X.Present(&(x.XXX_presence[0]), 16) {
+			return x.xxx_hidden_UnitStatus
+		}
+	}
+	return Vehicle_UNIT_STATUS_UNSPECIFIED
+}
+
+func (x *Vehicle) GetUnknownUnitStatus() string {
+	if x != nil {
+		if x.xxx_hidden_UnknownUnitStatus != nil {
+			return *x.xxx_hidden_UnknownUnitStatus
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetLocation() *Location {
+	if x != nil {
+		return x.xxx_hidden_Location
+	}
+	return nil
+}
+
+func (x *Vehicle) GetDriverId() string {
+	if x != nil {
+		if x.xxx_hidden_DriverId != nil {
+			return *x.xxx_hidden_DriverId
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetDriverExternalId() string {
+	if x != nil {
+		if x.xxx_hidden_DriverExternalId != nil {
+			return *x.xxx_hidden_DriverExternalId
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetDriverName() string {
+	if x != nil {
+		if x.xxx_hidden_DriverName != nil {
+			return *x.xxx_hidden_DriverName
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetOrganizationId() string {
+	if x != nil {
+		if x.xxx_hidden_OrganizationId != nil {
+			return *x.xxx_hidden_OrganizationId
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetOrganizationName() string {
+	if x != nil {
+		if x.xxx_hidden_OrganizationName != nil {
+			return *x.xxx_hidden_OrganizationName
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetOdometerM() float64 {
+	if x != nil {
+		return x.xxx_hidden_OdometerM
+	}
+	return 0
+}
+
+func (x *Vehicle) GetOdometerTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.xxx_hidden_OdometerTime
+	}
+	return nil
+}
+
+func (x *Vehicle) GetNotes() string {
+	if x != nil {
+		if x.xxx_hidden_Notes != nil {
+			return *x.xxx_hidden_Notes
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetFuelType() Vehicle_FuelType {
+	if x != nil {
+		if protoimpl.X.Present(&(x.XXX_presence[0]), 27) {
+			return x.xxx_hidden_FuelType
+		}
+	}
+	return Vehicle_FUEL_TYPE_UNSPECIFIED
+}
+
+func (x *Vehicle) GetUnknownFuelType() string {
+	if x != nil {
+		if x.xxx_hidden_UnknownFuelType != nil {
+			return *x.xxx_hidden_UnknownFuelType
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetFuelConsumptionVaries() float64 {
+	if x != nil {
+		return x.xxx_hidden_FuelConsumptionVaries
+	}
+	return 0
+}
+
+func (x *Vehicle) GetEngineSizeCc() float64 {
+	if x != nil {
+		return x.xxx_hidden_EngineSizeCc
+	}
+	return 0
+}
+
+func (x *Vehicle) GetColor() string {
+	if x != nil {
+		if x.xxx_hidden_Color != nil {
+			return *x.xxx_hidden_Color
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *Vehicle) GetCo2EmissionsGKm() float64 {
+	if x != nil {
+		return x.xxx_hidden_Co2EmissionsGKm
+	}
+	return 0
+}
+
 func (x *Vehicle) SetId(v string) {
 	x.xxx_hidden_Id = &v
-	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 1)
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 33)
+}
+
+func (x *Vehicle) SetAssetId(v string) {
+	x.xxx_hidden_AssetId = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 1, 33)
+}
+
+func (x *Vehicle) SetVin(v string) {
+	x.xxx_hidden_Vin = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 2, 33)
+}
+
+func (x *Vehicle) SetAlias(v string) {
+	x.xxx_hidden_Alias = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 3, 33)
+}
+
+func (x *Vehicle) SetManufacturerName(v string) {
+	x.xxx_hidden_ManufacturerName = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 4, 33)
+}
+
+func (x *Vehicle) SetModelName(v string) {
+	x.xxx_hidden_ModelName = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 5, 33)
+}
+
+func (x *Vehicle) SetLicensePlateNumber(v string) {
+	x.xxx_hidden_LicensePlateNumber = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 6, 33)
+}
+
+func (x *Vehicle) SetLicensePlateRegistrationTime(v *timestamppb.Timestamp) {
+	x.xxx_hidden_LicensePlateRegistrationTime = v
+}
+
+func (x *Vehicle) SetCommercialClass(v Vehicle_CommercialClass) {
+	x.xxx_hidden_CommercialClass = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 8, 33)
+}
+
+func (x *Vehicle) SetUnknownCommercialClass(v string) {
+	x.xxx_hidden_UnknownCommercialClass = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 9, 33)
+}
+
+func (x *Vehicle) SetRegisteredTime(v *timestamppb.Timestamp) {
+	x.xxx_hidden_RegisteredTime = v
+}
+
+func (x *Vehicle) SetUnitId(v string) {
+	x.xxx_hidden_UnitId = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 11, 33)
+}
+
+func (x *Vehicle) SetUnitSerialNumber(v string) {
+	x.xxx_hidden_UnitSerialNumber = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 12, 33)
+}
+
+func (x *Vehicle) SetUnitType(v string) {
+	x.xxx_hidden_UnitType = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 13, 33)
+}
+
+func (x *Vehicle) SetUnitHealth(v Vehicle_UnitHealth) {
+	x.xxx_hidden_UnitHealth = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 14, 33)
+}
+
+func (x *Vehicle) SetUnknownUnitHealth(v string) {
+	x.xxx_hidden_UnknownUnitHealth = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 15, 33)
+}
+
+func (x *Vehicle) SetUnitStatus(v Vehicle_UnitStatus) {
+	x.xxx_hidden_UnitStatus = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 16, 33)
+}
+
+func (x *Vehicle) SetUnknownUnitStatus(v string) {
+	x.xxx_hidden_UnknownUnitStatus = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 17, 33)
+}
+
+func (x *Vehicle) SetLocation(v *Location) {
+	x.xxx_hidden_Location = v
+}
+
+func (x *Vehicle) SetDriverId(v string) {
+	x.xxx_hidden_DriverId = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 19, 33)
+}
+
+func (x *Vehicle) SetDriverExternalId(v string) {
+	x.xxx_hidden_DriverExternalId = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 20, 33)
+}
+
+func (x *Vehicle) SetDriverName(v string) {
+	x.xxx_hidden_DriverName = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 21, 33)
+}
+
+func (x *Vehicle) SetOrganizationId(v string) {
+	x.xxx_hidden_OrganizationId = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 22, 33)
+}
+
+func (x *Vehicle) SetOrganizationName(v string) {
+	x.xxx_hidden_OrganizationName = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 23, 33)
+}
+
+func (x *Vehicle) SetOdometerM(v float64) {
+	x.xxx_hidden_OdometerM = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 24, 33)
+}
+
+func (x *Vehicle) SetOdometerTime(v *timestamppb.Timestamp) {
+	x.xxx_hidden_OdometerTime = v
+}
+
+func (x *Vehicle) SetNotes(v string) {
+	x.xxx_hidden_Notes = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 26, 33)
+}
+
+func (x *Vehicle) SetFuelType(v Vehicle_FuelType) {
+	x.xxx_hidden_FuelType = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 27, 33)
+}
+
+func (x *Vehicle) SetUnknownFuelType(v string) {
+	x.xxx_hidden_UnknownFuelType = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 28, 33)
+}
+
+func (x *Vehicle) SetFuelConsumptionVaries(v float64) {
+	x.xxx_hidden_FuelConsumptionVaries = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 29, 33)
+}
+
+func (x *Vehicle) SetEngineSizeCc(v float64) {
+	x.xxx_hidden_EngineSizeCc = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 30, 33)
+}
+
+func (x *Vehicle) SetColor(v string) {
+	x.xxx_hidden_Color = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 31, 33)
+}
+
+func (x *Vehicle) SetCo2EmissionsGKm(v float64) {
+	x.xxx_hidden_Co2EmissionsGKm = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[1]), 32, 33)
 }
 
 func (x *Vehicle) HasId() bool {
@@ -77,16 +783,467 @@ func (x *Vehicle) HasId() bool {
 	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
 }
 
+func (x *Vehicle) HasAssetId() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 1)
+}
+
+func (x *Vehicle) HasVin() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 2)
+}
+
+func (x *Vehicle) HasAlias() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 3)
+}
+
+func (x *Vehicle) HasManufacturerName() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 4)
+}
+
+func (x *Vehicle) HasModelName() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 5)
+}
+
+func (x *Vehicle) HasLicensePlateNumber() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 6)
+}
+
+func (x *Vehicle) HasLicensePlateRegistrationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.xxx_hidden_LicensePlateRegistrationTime != nil
+}
+
+func (x *Vehicle) HasCommercialClass() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 8)
+}
+
+func (x *Vehicle) HasUnknownCommercialClass() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 9)
+}
+
+func (x *Vehicle) HasRegisteredTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.xxx_hidden_RegisteredTime != nil
+}
+
+func (x *Vehicle) HasUnitId() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 11)
+}
+
+func (x *Vehicle) HasUnitSerialNumber() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 12)
+}
+
+func (x *Vehicle) HasUnitType() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 13)
+}
+
+func (x *Vehicle) HasUnitHealth() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 14)
+}
+
+func (x *Vehicle) HasUnknownUnitHealth() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 15)
+}
+
+func (x *Vehicle) HasUnitStatus() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 16)
+}
+
+func (x *Vehicle) HasUnknownUnitStatus() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 17)
+}
+
+func (x *Vehicle) HasLocation() bool {
+	if x == nil {
+		return false
+	}
+	return x.xxx_hidden_Location != nil
+}
+
+func (x *Vehicle) HasDriverId() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 19)
+}
+
+func (x *Vehicle) HasDriverExternalId() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 20)
+}
+
+func (x *Vehicle) HasDriverName() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 21)
+}
+
+func (x *Vehicle) HasOrganizationId() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 22)
+}
+
+func (x *Vehicle) HasOrganizationName() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 23)
+}
+
+func (x *Vehicle) HasOdometerM() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 24)
+}
+
+func (x *Vehicle) HasOdometerTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.xxx_hidden_OdometerTime != nil
+}
+
+func (x *Vehicle) HasNotes() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 26)
+}
+
+func (x *Vehicle) HasFuelType() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 27)
+}
+
+func (x *Vehicle) HasUnknownFuelType() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 28)
+}
+
+func (x *Vehicle) HasFuelConsumptionVaries() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 29)
+}
+
+func (x *Vehicle) HasEngineSizeCc() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 30)
+}
+
+func (x *Vehicle) HasColor() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 31)
+}
+
+func (x *Vehicle) HasCo2EmissionsGKm() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[1]), 32)
+}
+
 func (x *Vehicle) ClearId() {
 	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
 	x.xxx_hidden_Id = nil
 }
 
+func (x *Vehicle) ClearAssetId() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 1)
+	x.xxx_hidden_AssetId = nil
+}
+
+func (x *Vehicle) ClearVin() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 2)
+	x.xxx_hidden_Vin = nil
+}
+
+func (x *Vehicle) ClearAlias() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 3)
+	x.xxx_hidden_Alias = nil
+}
+
+func (x *Vehicle) ClearManufacturerName() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 4)
+	x.xxx_hidden_ManufacturerName = nil
+}
+
+func (x *Vehicle) ClearModelName() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 5)
+	x.xxx_hidden_ModelName = nil
+}
+
+func (x *Vehicle) ClearLicensePlateNumber() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 6)
+	x.xxx_hidden_LicensePlateNumber = nil
+}
+
+func (x *Vehicle) ClearLicensePlateRegistrationTime() {
+	x.xxx_hidden_LicensePlateRegistrationTime = nil
+}
+
+func (x *Vehicle) ClearCommercialClass() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 8)
+	x.xxx_hidden_CommercialClass = Vehicle_COMMERCIAL_CLASS_UNSPECIFIED
+}
+
+func (x *Vehicle) ClearUnknownCommercialClass() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 9)
+	x.xxx_hidden_UnknownCommercialClass = nil
+}
+
+func (x *Vehicle) ClearRegisteredTime() {
+	x.xxx_hidden_RegisteredTime = nil
+}
+
+func (x *Vehicle) ClearUnitId() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 11)
+	x.xxx_hidden_UnitId = nil
+}
+
+func (x *Vehicle) ClearUnitSerialNumber() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 12)
+	x.xxx_hidden_UnitSerialNumber = nil
+}
+
+func (x *Vehicle) ClearUnitType() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 13)
+	x.xxx_hidden_UnitType = nil
+}
+
+func (x *Vehicle) ClearUnitHealth() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 14)
+	x.xxx_hidden_UnitHealth = Vehicle_UNIT_HEALTH_UNSPECIFIED
+}
+
+func (x *Vehicle) ClearUnknownUnitHealth() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 15)
+	x.xxx_hidden_UnknownUnitHealth = nil
+}
+
+func (x *Vehicle) ClearUnitStatus() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 16)
+	x.xxx_hidden_UnitStatus = Vehicle_UNIT_STATUS_UNSPECIFIED
+}
+
+func (x *Vehicle) ClearUnknownUnitStatus() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 17)
+	x.xxx_hidden_UnknownUnitStatus = nil
+}
+
+func (x *Vehicle) ClearLocation() {
+	x.xxx_hidden_Location = nil
+}
+
+func (x *Vehicle) ClearDriverId() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 19)
+	x.xxx_hidden_DriverId = nil
+}
+
+func (x *Vehicle) ClearDriverExternalId() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 20)
+	x.xxx_hidden_DriverExternalId = nil
+}
+
+func (x *Vehicle) ClearDriverName() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 21)
+	x.xxx_hidden_DriverName = nil
+}
+
+func (x *Vehicle) ClearOrganizationId() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 22)
+	x.xxx_hidden_OrganizationId = nil
+}
+
+func (x *Vehicle) ClearOrganizationName() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 23)
+	x.xxx_hidden_OrganizationName = nil
+}
+
+func (x *Vehicle) ClearOdometerM() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 24)
+	x.xxx_hidden_OdometerM = 0
+}
+
+func (x *Vehicle) ClearOdometerTime() {
+	x.xxx_hidden_OdometerTime = nil
+}
+
+func (x *Vehicle) ClearNotes() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 26)
+	x.xxx_hidden_Notes = nil
+}
+
+func (x *Vehicle) ClearFuelType() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 27)
+	x.xxx_hidden_FuelType = Vehicle_FUEL_TYPE_UNSPECIFIED
+}
+
+func (x *Vehicle) ClearUnknownFuelType() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 28)
+	x.xxx_hidden_UnknownFuelType = nil
+}
+
+func (x *Vehicle) ClearFuelConsumptionVaries() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 29)
+	x.xxx_hidden_FuelConsumptionVaries = 0
+}
+
+func (x *Vehicle) ClearEngineSizeCc() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 30)
+	x.xxx_hidden_EngineSizeCc = 0
+}
+
+func (x *Vehicle) ClearColor() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 31)
+	x.xxx_hidden_Color = nil
+}
+
+func (x *Vehicle) ClearCo2EmissionsGKm() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[1]), 32)
+	x.xxx_hidden_Co2EmissionsGKm = 0
+}
+
 type Vehicle_builder struct {
 	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
 
-	// TODO: Add field documentation.
+	// The unique identifier of the vehicle.
 	Id *string
+	// The unique identifier of the vehicle's telematics asset.
+	AssetId *string
+	// The vehicle identification number (VIN).
+	Vin *string
+	// The vehicle's alias.
+	Alias *string
+	// The vehicle's manufacturer name.
+	ManufacturerName *string
+	// The vehicle's model name.
+	ModelName *string
+	// The license plate number.
+	LicensePlateNumber *string
+	// The registration date of the license plate.
+	LicensePlateRegistrationTime *timestamppb.Timestamp
+	// The commercial classification of the vehicle.
+	CommercialClass *Vehicle_CommercialClass
+	// The unknown commercial classification of the vehicle.
+	// This value is used when commercial_class is COMMERCIAL_CLASS_UNKNOWN.
+	UnknownCommercialClass *string
+	// The registration date of the vehicle (in UTC time).
+	RegisteredTime *timestamppb.Timestamp
+	// The unique identifier of the telematics unit.
+	UnitId *string
+	// The serial number of the telematics unit.
+	UnitSerialNumber *string
+	// The type of the telematics unit.
+	UnitType *string
+	// The health status of the telematics unit.
+	UnitHealth *Vehicle_UnitHealth
+	// The unknown health status of the telematics unit.
+	// This value is used when unit_health is UNIT_HEALTH_UNKNOWN.
+	UnknownUnitHealth *string
+	// The operational status of the telematics unit.
+	UnitStatus *Vehicle_UnitStatus
+	// The unknown operational status of the telematics unit.
+	// This value is used when unit_status is UNIT_STATUS_UNKNOWN.
+	UnknownUnitStatus *string
+	// The current location of the vehicle.
+	Location *Location
+	// The unique identifier of the current driver.
+	DriverId *string
+	// External identifier for the current driver.
+	DriverExternalId *string
+	// The name of the current driver.
+	DriverName *string
+	// The unique identifier of the organization that owns the vehicle.
+	OrganizationId *string
+	// The name of the organization that owns the vehicle.
+	OrganizationName *string
+	// The current odometer reading in meters.
+	OdometerM *float64
+	// The timestamp when the odometer reading was taken.
+	OdometerTime *timestamppb.Timestamp
+	// Additional notes about the vehicle.
+	Notes *string
+	// The fuel type of the vehicle.
+	FuelType *Vehicle_FuelType
+	// The unknown fuel type of the vehicle.
+	// This value is used when fuel_type is FUEL_TYPE_UNKNOWN.
+	UnknownFuelType *string
+	// The fuel consumption of the vehicle.
+	// For electric vehicles: kWh/100km, for UK: miles per gallon,
+	// for Norway and Sweden: liters per Scandinavian mile,
+	// otherwise: liters per 100km.
+	FuelConsumptionVaries *float64
+	// The engine size in cubic centimeters (cc).
+	EngineSizeCc *float64
+	// The color of the vehicle.
+	Color *string
+	// CO2 emissions in g/km.
+	Co2EmissionsGKm *float64
 }
 
 func (b0 Vehicle_builder) Build() *Vehicle {
@@ -94,8 +1251,124 @@ func (b0 Vehicle_builder) Build() *Vehicle {
 	b, x := &b0, m0
 	_, _ = b, x
 	if b.Id != nil {
-		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 1)
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 33)
 		x.xxx_hidden_Id = b.Id
+	}
+	if b.AssetId != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 1, 33)
+		x.xxx_hidden_AssetId = b.AssetId
+	}
+	if b.Vin != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 2, 33)
+		x.xxx_hidden_Vin = b.Vin
+	}
+	if b.Alias != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 3, 33)
+		x.xxx_hidden_Alias = b.Alias
+	}
+	if b.ManufacturerName != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 4, 33)
+		x.xxx_hidden_ManufacturerName = b.ManufacturerName
+	}
+	if b.ModelName != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 5, 33)
+		x.xxx_hidden_ModelName = b.ModelName
+	}
+	if b.LicensePlateNumber != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 6, 33)
+		x.xxx_hidden_LicensePlateNumber = b.LicensePlateNumber
+	}
+	x.xxx_hidden_LicensePlateRegistrationTime = b.LicensePlateRegistrationTime
+	if b.CommercialClass != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 8, 33)
+		x.xxx_hidden_CommercialClass = *b.CommercialClass
+	}
+	if b.UnknownCommercialClass != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 9, 33)
+		x.xxx_hidden_UnknownCommercialClass = b.UnknownCommercialClass
+	}
+	x.xxx_hidden_RegisteredTime = b.RegisteredTime
+	if b.UnitId != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 11, 33)
+		x.xxx_hidden_UnitId = b.UnitId
+	}
+	if b.UnitSerialNumber != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 12, 33)
+		x.xxx_hidden_UnitSerialNumber = b.UnitSerialNumber
+	}
+	if b.UnitType != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 13, 33)
+		x.xxx_hidden_UnitType = b.UnitType
+	}
+	if b.UnitHealth != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 14, 33)
+		x.xxx_hidden_UnitHealth = *b.UnitHealth
+	}
+	if b.UnknownUnitHealth != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 15, 33)
+		x.xxx_hidden_UnknownUnitHealth = b.UnknownUnitHealth
+	}
+	if b.UnitStatus != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 16, 33)
+		x.xxx_hidden_UnitStatus = *b.UnitStatus
+	}
+	if b.UnknownUnitStatus != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 17, 33)
+		x.xxx_hidden_UnknownUnitStatus = b.UnknownUnitStatus
+	}
+	x.xxx_hidden_Location = b.Location
+	if b.DriverId != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 19, 33)
+		x.xxx_hidden_DriverId = b.DriverId
+	}
+	if b.DriverExternalId != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 20, 33)
+		x.xxx_hidden_DriverExternalId = b.DriverExternalId
+	}
+	if b.DriverName != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 21, 33)
+		x.xxx_hidden_DriverName = b.DriverName
+	}
+	if b.OrganizationId != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 22, 33)
+		x.xxx_hidden_OrganizationId = b.OrganizationId
+	}
+	if b.OrganizationName != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 23, 33)
+		x.xxx_hidden_OrganizationName = b.OrganizationName
+	}
+	if b.OdometerM != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 24, 33)
+		x.xxx_hidden_OdometerM = *b.OdometerM
+	}
+	x.xxx_hidden_OdometerTime = b.OdometerTime
+	if b.Notes != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 26, 33)
+		x.xxx_hidden_Notes = b.Notes
+	}
+	if b.FuelType != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 27, 33)
+		x.xxx_hidden_FuelType = *b.FuelType
+	}
+	if b.UnknownFuelType != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 28, 33)
+		x.xxx_hidden_UnknownFuelType = b.UnknownFuelType
+	}
+	if b.FuelConsumptionVaries != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 29, 33)
+		x.xxx_hidden_FuelConsumptionVaries = *b.FuelConsumptionVaries
+	}
+	if b.EngineSizeCc != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 30, 33)
+		x.xxx_hidden_EngineSizeCc = *b.EngineSizeCc
+	}
+	if b.Color != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 31, 33)
+		x.xxx_hidden_Color = b.Color
+	}
+	if b.Co2EmissionsGKm != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[1]), 32, 33)
+		x.xxx_hidden_Co2EmissionsGKm = *b.Co2EmissionsGKm
 	}
 	return m0
 }
@@ -104,21 +1377,111 @@ var File_wayplatform_connect_abax_v1_vehicle_proto protoreflect.FileDescriptor
 
 const file_wayplatform_connect_abax_v1_vehicle_proto_rawDesc = "" +
 	"\n" +
-	")wayplatform/connect/abax/v1/vehicle.proto\x12\x1bwayplatform.connect.abax.v1\"\x19\n" +
+	")wayplatform/connect/abax/v1/vehicle.proto\x12\x1bwayplatform.connect.abax.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a*wayplatform/connect/abax/v1/location.proto\"\x9e\x11\n" +
 	"\aVehicle\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02idB\x8f\x02\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
+	"\basset_id\x18\x02 \x01(\tR\aassetId\x12\x10\n" +
+	"\x03vin\x18\x03 \x01(\tR\x03vin\x12\x14\n" +
+	"\x05alias\x18\x04 \x01(\tR\x05alias\x12+\n" +
+	"\x11manufacturer_name\x18\x05 \x01(\tR\x10manufacturerName\x12\x1d\n" +
+	"\n" +
+	"model_name\x18\x06 \x01(\tR\tmodelName\x120\n" +
+	"\x14license_plate_number\x18\a \x01(\tR\x12licensePlateNumber\x12a\n" +
+	"\x1flicense_plate_registration_time\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\x1clicensePlateRegistrationTime\x12_\n" +
+	"\x10commercial_class\x18\t \x01(\x0e24.wayplatform.connect.abax.v1.Vehicle.CommercialClassR\x0fcommercialClass\x128\n" +
+	"\x18unknown_commercial_class\x18\n" +
+	" \x01(\tR\x16unknownCommercialClass\x12C\n" +
+	"\x0fregistered_time\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\x0eregisteredTime\x12\x17\n" +
+	"\aunit_id\x18\f \x01(\tR\x06unitId\x12,\n" +
+	"\x12unit_serial_number\x18\r \x01(\tR\x10unitSerialNumber\x12\x1b\n" +
+	"\tunit_type\x18\x0e \x01(\tR\bunitType\x12P\n" +
+	"\vunit_health\x18\x0f \x01(\x0e2/.wayplatform.connect.abax.v1.Vehicle.UnitHealthR\n" +
+	"unitHealth\x12.\n" +
+	"\x13unknown_unit_health\x18\x10 \x01(\tR\x11unknownUnitHealth\x12P\n" +
+	"\vunit_status\x18\x11 \x01(\x0e2/.wayplatform.connect.abax.v1.Vehicle.UnitStatusR\n" +
+	"unitStatus\x12.\n" +
+	"\x13unknown_unit_status\x18\x12 \x01(\tR\x11unknownUnitStatus\x12A\n" +
+	"\blocation\x18\x13 \x01(\v2%.wayplatform.connect.abax.v1.LocationR\blocation\x12\x1b\n" +
+	"\tdriver_id\x18\x14 \x01(\tR\bdriverId\x12,\n" +
+	"\x12driver_external_id\x18\x15 \x01(\tR\x10driverExternalId\x12\x1f\n" +
+	"\vdriver_name\x18\x16 \x01(\tR\n" +
+	"driverName\x12'\n" +
+	"\x0forganization_id\x18\x17 \x01(\tR\x0eorganizationId\x12+\n" +
+	"\x11organization_name\x18\x18 \x01(\tR\x10organizationName\x12\x1d\n" +
+	"\n" +
+	"odometer_m\x18\x19 \x01(\x01R\todometerM\x12?\n" +
+	"\rodometer_time\x18\x1a \x01(\v2\x1a.google.protobuf.TimestampR\fodometerTime\x12\x14\n" +
+	"\x05notes\x18\x1b \x01(\tR\x05notes\x12J\n" +
+	"\tfuel_type\x18\x1c \x01(\x0e2-.wayplatform.connect.abax.v1.Vehicle.FuelTypeR\bfuelType\x12*\n" +
+	"\x11unknown_fuel_type\x18\x1d \x01(\tR\x0funknownFuelType\x126\n" +
+	"\x17fuel_consumption_varies\x18\x1e \x01(\x01R\x15fuelConsumptionVaries\x12$\n" +
+	"\x0eengine_size_cc\x18\x1f \x01(\x01R\fengineSizeCc\x12\x14\n" +
+	"\x05color\x18  \x01(\tR\x05color\x12+\n" +
+	"\x12co2_emissions_g_km\x18! \x01(\x01R\x0fco2EmissionsGKm\"\xc0\x01\n" +
+	"\x0fCommercialClass\x12 \n" +
+	"\x1cCOMMERCIAL_CLASS_UNSPECIFIED\x10\x00\x12\x1c\n" +
+	"\x18COMMERCIAL_CLASS_UNKNOWN\x10\x01\x12\"\n" +
+	"\x1eCOMMERCIAL_CLASS_NOT_AVAILABLE\x10\x02\x12\v\n" +
+	"\aPRIVATE\x10\x03\x12\v\n" +
+	"\aCOMPANY\x10\x04\x12\x0e\n" +
+	"\n" +
+	"COMMERCIAL\x10\x05\x12\x1f\n" +
+	"\x1bCOMMERCIAL_WITH_PRIVATE_USE\x10\x06\"\x8b\x01\n" +
+	"\n" +
+	"UnitHealth\x12\x1b\n" +
+	"\x17UNIT_HEALTH_UNSPECIFIED\x10\x00\x12\x17\n" +
+	"\x13UNIT_HEALTH_UNKNOWN\x10\x01\x12\x1d\n" +
+	"\x19UNIT_HEALTH_NOT_AVAILABLE\x10\x02\x12\v\n" +
+	"\aHEALTHY\x10\x03\x12\f\n" +
+	"\bDEGRADED\x10\x04\x12\r\n" +
+	"\tUNHEALTHY\x10\x05\"~\n" +
+	"\n" +
+	"UnitStatus\x12\x1b\n" +
+	"\x17UNIT_STATUS_UNSPECIFIED\x10\x00\x12\x17\n" +
+	"\x13UNIT_STATUS_UNKNOWN\x10\x01\x12\x1d\n" +
+	"\x19UNIT_STATUS_NOT_AVAILABLE\x10\x02\x12\n" +
+	"\n" +
+	"\x06ACTIVE\x10\x03\x12\x0f\n" +
+	"\vDEACTIVATED\x10\x04\"\xb1\x01\n" +
+	"\bFuelType\x12\x19\n" +
+	"\x15FUEL_TYPE_UNSPECIFIED\x10\x00\x12\x15\n" +
+	"\x11FUEL_TYPE_UNKNOWN\x10\x01\x12\x1b\n" +
+	"\x17FUEL_TYPE_NOT_AVAILABLE\x10\x02\x12\n" +
+	"\n" +
+	"\x06PETROL\x10\x03\x12\x0f\n" +
+	"\vELECTRICITY\x10\x04\x12\n" +
+	"\n" +
+	"\x06DIESEL\x10\x05\x12\a\n" +
+	"\x03LPG\x10\x06\x12\x11\n" +
+	"\rDIESEL_HYBRID\x10\a\x12\x11\n" +
+	"\rPETROL_HYBRID\x10\bB\x8f\x02\n" +
 	"\x1fcom.wayplatform.connect.abax.v1B\fVehicleProtoP\x01ZOgithub.com/way-platform/abax-go/proto/gen/go/wayplatform/connect/abax/v1;abaxv1\xa2\x02\x03WCA\xaa\x02\x1bWayplatform.Connect.Abax.V1\xca\x02\x1bWayplatform\\Connect\\Abax\\V1\xe2\x02'Wayplatform\\Connect\\Abax\\V1\\GPBMetadata\xea\x02\x1eWayplatform::Connect::Abax::V1b\beditionsp\xe8\a"
 
+var file_wayplatform_connect_abax_v1_vehicle_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_wayplatform_connect_abax_v1_vehicle_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_wayplatform_connect_abax_v1_vehicle_proto_goTypes = []any{
-	(*Vehicle)(nil), // 0: wayplatform.connect.abax.v1.Vehicle
+	(Vehicle_CommercialClass)(0),  // 0: wayplatform.connect.abax.v1.Vehicle.CommercialClass
+	(Vehicle_UnitHealth)(0),       // 1: wayplatform.connect.abax.v1.Vehicle.UnitHealth
+	(Vehicle_UnitStatus)(0),       // 2: wayplatform.connect.abax.v1.Vehicle.UnitStatus
+	(Vehicle_FuelType)(0),         // 3: wayplatform.connect.abax.v1.Vehicle.FuelType
+	(*Vehicle)(nil),               // 4: wayplatform.connect.abax.v1.Vehicle
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(*Location)(nil),              // 6: wayplatform.connect.abax.v1.Location
 }
 var file_wayplatform_connect_abax_v1_vehicle_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	5, // 0: wayplatform.connect.abax.v1.Vehicle.license_plate_registration_time:type_name -> google.protobuf.Timestamp
+	0, // 1: wayplatform.connect.abax.v1.Vehicle.commercial_class:type_name -> wayplatform.connect.abax.v1.Vehicle.CommercialClass
+	5, // 2: wayplatform.connect.abax.v1.Vehicle.registered_time:type_name -> google.protobuf.Timestamp
+	1, // 3: wayplatform.connect.abax.v1.Vehicle.unit_health:type_name -> wayplatform.connect.abax.v1.Vehicle.UnitHealth
+	2, // 4: wayplatform.connect.abax.v1.Vehicle.unit_status:type_name -> wayplatform.connect.abax.v1.Vehicle.UnitStatus
+	6, // 5: wayplatform.connect.abax.v1.Vehicle.location:type_name -> wayplatform.connect.abax.v1.Location
+	5, // 6: wayplatform.connect.abax.v1.Vehicle.odometer_time:type_name -> google.protobuf.Timestamp
+	3, // 7: wayplatform.connect.abax.v1.Vehicle.fuel_type:type_name -> wayplatform.connect.abax.v1.Vehicle.FuelType
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_wayplatform_connect_abax_v1_vehicle_proto_init() }
@@ -126,18 +1489,20 @@ func file_wayplatform_connect_abax_v1_vehicle_proto_init() {
 	if File_wayplatform_connect_abax_v1_vehicle_proto != nil {
 		return
 	}
+	file_wayplatform_connect_abax_v1_location_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_wayplatform_connect_abax_v1_vehicle_proto_rawDesc), len(file_wayplatform_connect_abax_v1_vehicle_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      4,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_wayplatform_connect_abax_v1_vehicle_proto_goTypes,
 		DependencyIndexes: file_wayplatform_connect_abax_v1_vehicle_proto_depIdxs,
+		EnumInfos:         file_wayplatform_connect_abax_v1_vehicle_proto_enumTypes,
 		MessageInfos:      file_wayplatform_connect_abax_v1_vehicle_proto_msgTypes,
 	}.Build()
 	File_wayplatform_connect_abax_v1_vehicle_proto = out.File
