@@ -44,7 +44,7 @@ func (c *Client) ListVehicles(ctx context.Context, request *ListVehiclesRequest)
 	if err != nil {
 		return nil, err
 	}
-	defer httpResponse.Body.Close()
+	defer httpResponse.Body.Close() //nolint:errcheck
 	if httpResponse.StatusCode != http.StatusOK {
 		return nil, c.newResponseError(httpResponse)
 	}

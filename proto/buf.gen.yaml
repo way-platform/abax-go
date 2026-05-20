@@ -14,7 +14,7 @@ inputs:
       - wayplatform
 
 plugins:
-  - local: ["go", "tool", "-modfile", "../tools/go.mod", "protoc-gen-go"]
+  - local: ["protoc-gen-go"]
     out: gen/go
     opt:
       - module=github.com/way-platform/abax-go/proto/gen/go
