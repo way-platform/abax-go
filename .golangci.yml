@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://golangci-lint.run/jsonschema/golangci.jsonschema.json
+version: "2"
+
+linters:
+  enable:
+    - gosec
+  settings:
+    gosec:
+      excludes:
+        # Pre-existing proto/binary integer conversions; values are API-bounded.
+        - G115
+        # Struct field name pattern matching — data carrier types, not hardcoded secrets.
+        - G117
+        # SSRF taint analysis — SDK HTTP client calls user-provided URLs by design.
+        - G704
+
+  exclusions:
+    rules:
+      # Test files: hardcoded test tokens/URLs and test file I/O are not vulnerabilities.
+      - path: "_test\\.go"
+        linters:
+          - gosec
+        text: "G101|G304|G306"
+      # OAuth2 callback URL constant is not a credential.
+      - path: "client\\.go"
+        linters:
+          - gosec
+        text: "G101"
+      # CLI: local OAuth callback server and browser opener/credential files are intentional.
+      - path: "cmd/abax/"
+        linters:
+          - gosec
+        text: "G112|G204|G304|G705"
