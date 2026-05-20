@@ -9,18 +9,16 @@ When developing this SDK, use the API docs and specs:
 - [Getting Started](./docs/getting-started.md)
 - [OpenAPI Spec](./internal/oapi/abaxoapi/01-original.json)
 
-## Structure
-
-- The project uses a [tools](./tools/) directory with a separate Go module containing tools for building, linting and generating code.
-
-- The project uses [Mage](https://magefile.org) with build tasks declared in [magefile.go](./tools/magefile.go).
-
 ## Developing
 
-- Run tests with `./tools/mage test`
+- Install tools: `mise install`
 
-- Lint with `./tools/mage lint`
+- Run tests: `mise run test`
 
-- Re-generate code with `./tools/mage generate`
+- Lint: `mise run lint`
+
+- Re-generate code: `mise run generate`
+
+- Full CI build: `mise run build`
 
 - Leave all version control and git to the user/developer. If you see a build error related to having a git diff, this is normal.
