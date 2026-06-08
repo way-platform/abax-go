@@ -7,6 +7,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"html"
 	"net/http"
 	"net/url"
 	"os"
@@ -215,7 +216,7 @@ func handleCallback(
 		}
 
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "<html><body><h1>Authorization Failed</h1><p>%s</p><p>You can close this window.</p></body></html>", err.Error()) //nolint:errcheck
+		writeHTMLError(w, err)
 
 		callbackChan <- callbackResult{Error: err}
 		return
@@ -227,7 +228,7 @@ func handleCallback(
 		err := fmt.Errorf("invalid state parameter")
 
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "<html><body><h1>Authorization Failed</h1><p>%s</p><p>You can close this window.</p></body></html>", err.Error()) //nolint:errcheck
+		writeHTMLError(w, err)
 
 		callbackChan <- callbackResult{Error: err}
 		return
@@ -239,7 +240,7 @@ func handleCallback(
 		err := fmt.Errorf("no authorization code received")
 
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "<html><body><h1>Authorization Failed</h1><p>%s</p><p>You can close this window.</p></body></html>", err.Error()) //nolint:errcheck
+		writeHTMLError(w, err)
 
 		callbackChan <- callbackResult{Error: err}
 		return
@@ -247,9 +248,13 @@ func handleCallback(
 
 	// Success response
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "<html><body><h1>Authorization Successful</h1><p>You can close this window and return to the CLI.</p></body></html>") //nolint:errcheck
+	_, _ = fmt.Fprint(w, "<html><body><h1>Authorization Successful</h1><p>You can close this window and return to the CLI.</p></body></html>")
 
 	callbackChan <- callbackResult{Code: code}
+}
+
+func writeHTMLError(w http.ResponseWriter, err error) {
+	_, _ = fmt.Fprintf(w, "<html><body><h1>Authorization Failed</h1><p>%s</p><p>You can close this window.</p></body></html>", html.EscapeString(err.Error()))
 }
 
 func generateCodeVerifier() (string, error) {
