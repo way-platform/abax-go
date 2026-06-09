@@ -7,7 +7,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"html"
+	"html/template"
 	"net/http"
 	"net/url"
 	"os"
@@ -216,7 +216,7 @@ func handleCallback(
 		}
 
 		w.WriteHeader(http.StatusBadRequest)
-		writeHTMLError(w, err)
+		_ = errorTemplate.Execute(w, err.Error())
 
 		callbackChan <- callbackResult{Error: err}
 		return
@@ -228,7 +228,7 @@ func handleCallback(
 		err := fmt.Errorf("invalid state parameter")
 
 		w.WriteHeader(http.StatusBadRequest)
-		writeHTMLError(w, err)
+		_ = errorTemplate.Execute(w, err.Error())
 
 		callbackChan <- callbackResult{Error: err}
 		return
@@ -240,7 +240,7 @@ func handleCallback(
 		err := fmt.Errorf("no authorization code received")
 
 		w.WriteHeader(http.StatusBadRequest)
-		writeHTMLError(w, err)
+		_ = errorTemplate.Execute(w, err.Error())
 
 		callbackChan <- callbackResult{Error: err}
 		return
@@ -248,14 +248,16 @@ func handleCallback(
 
 	// Success response
 	w.WriteHeader(http.StatusOK)
-	_, _ = fmt.Fprint(w, "<html><body><h1>Authorization Successful</h1><p>You can close this window and return to the CLI.</p></body></html>")
+	_ = successTemplate.Execute(w, nil)
 
 	callbackChan <- callbackResult{Code: code}
 }
 
-func writeHTMLError(w http.ResponseWriter, err error) {
-	_, _ = fmt.Fprintf(w, "<html><body><h1>Authorization Failed</h1><p>%s</p><p>You can close this window.</p></body></html>", html.EscapeString(err.Error()))
-}
+var successTemplate = template.Must(template.New("success").Parse(
+	`<html><body><h1>Authorization Successful</h1><p>You can close this window and return to the CLI.</p></body></html>`))
+
+var errorTemplate = template.Must(template.New("error").Parse(
+	`<html><body><h1>Authorization Failed</h1><p>{{.}}</p><p>You can close this window.</p></body></html>`))
 
 func generateCodeVerifier() (string, error) {
 	// Generate 43-128 character code verifier as per RFC 7636
