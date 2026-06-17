@@ -1377,7 +1377,7 @@ var File_wayplatform_connect_abax_v1_vehicle_proto protoreflect.FileDescriptor
 
 const file_wayplatform_connect_abax_v1_vehicle_proto_rawDesc = "" +
 	"\n" +
-	")wayplatform/connect/abax/v1/vehicle.proto\x12\x1bwayplatform.connect.abax.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a*wayplatform/connect/abax/v1/location.proto\"\x9e\x11\n" +
+	")wayplatform/connect/abax/v1/vehicle.proto\x12\x1bwayplatform.connect.abax.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a*wayplatform/connect/abax/v1/location.proto\"\xa3\x11\n" +
 	"\aVehicle\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\basset_id\x18\x02 \x01(\tR\aassetId\x12\x10\n" +
@@ -1403,8 +1403,8 @@ const file_wayplatform_connect_abax_v1_vehicle_proto_rawDesc = "" +
 	"\x13unknown_unit_status\x18\x12 \x01(\tR\x11unknownUnitStatus\x12A\n" +
 	"\blocation\x18\x13 \x01(\v2%.wayplatform.connect.abax.v1.LocationR\blocation\x12\x1b\n" +
 	"\tdriver_id\x18\x14 \x01(\tR\bdriverId\x12,\n" +
-	"\x12driver_external_id\x18\x15 \x01(\tR\x10driverExternalId\x12\x1f\n" +
-	"\vdriver_name\x18\x16 \x01(\tR\n" +
+	"\x12driver_external_id\x18\x15 \x01(\tR\x10driverExternalId\x12$\n" +
+	"\vdriver_name\x18\x16 \x01(\tB\x03\x80\x01\x01R\n" +
 	"driverName\x12'\n" +
 	"\x0forganization_id\x18\x17 \x01(\tR\x0eorganizationId\x12+\n" +
 	"\x11organization_name\x18\x18 \x01(\tR\x10organizationName\x12\x1d\n" +

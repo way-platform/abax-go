@@ -104,7 +104,7 @@ message Vehicle {
   string driver_external_id = 21;
 
   // The name of the current driver.
-  string driver_name = 22;
+  string driver_name = 22 [debug_redact = true];
 
   // The unique identifier of the organization that owns the vehicle.
   string organization_id = 23;
